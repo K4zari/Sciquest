@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-04-30T02:43:07.145655+00:00",
+  "task_slug": "level-5-cave-crystal-tileset-v2",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-spritesheet",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__spritesheet",
+  "model": "rd_pro",
+  "prompt_text": "pixel art tileset for a 2d platformer cave level, dark stone tiles with edge and corner pieces for autotiling, top edge tiles with grass-like crystal trim, inner corners and outer corners, thin floating stone platforms with rounded ends, narrow horizontal platforms, glowing cyan and purple crystal accents, 16-bit retro style, flat off-white background, no characters, no ui",
+  "prompt_hash": "8b062990a1a92e3734e499cdfe1fe7b6e7226c012315ebcded28c4411917876a",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 256,
+    "height": 256,
+    "num_images": 1,
+    "prompt_style": "rd_pro__spritesheet",
+    "prompt": "pixel art tileset for a 2d platformer cave level, dark stone tiles with edge and corner pieces for autotiling, top edge tiles with grass-like crystal trim, inner corners and outer corners, thin floating stone platforms with rounded ends, narrow horizontal platforms, glowing cyan and purple crystal accents, 16-bit retro style, flat off-white background, no characters, no ui"
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 0.14,
+  "created_at_epoch": 1777517046,
+  "output_files": [
+    "experiments/retro-diffusion/cave_crystal_tileset/cave-crystal-tileset-v2-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "experiments/retro-diffusion/cave_crystal_tileset/cave-crystal-tileset-v2-response.json"
+}

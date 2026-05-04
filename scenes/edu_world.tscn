@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/edu_world.gd" id="1_eduwld"]
+[ext_resource type="PackedScene" uid="uid://col3falvg0fba" path="res://scenes/hud.tscn" id="2_eduhud"]
+
+[node name="EduWorld" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_eduwld")
+
+[node name="HUD" parent="." instance=ExtResource("2_eduhud")]
+
+[editable path="HUD"]

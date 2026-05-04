@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-04-30T02:40:17.468438+00:00",
+  "task_slug": "level-5-cave-crystal-tileset",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-spritesheet",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__spritesheet",
+  "model": "check_cost",
+  "prompt_text": "pixel art tileset for a 2d platformer cave level, dark stone walls with glowing purple and cyan crystal formations, terrain ground tiles, wall tiles, ceiling tiles, slope edges, platform tiles, crystal cluster decorations, 16-bit retro style, flat off-white background, no characters, no ui",
+  "prompt_hash": "275e1b049d72d4f56cd7c87dd92037d4a05bf73c1181e91576d4b4134dcc77d6",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 256,
+    "height": 256,
+    "num_images": 1,
+    "prompt_style": "rd_pro__spritesheet",
+    "prompt": "pixel art tileset for a 2d platformer cave level, dark stone walls with glowing purple and cyan crystal formations, terrain ground tiles, wall tiles, ceiling tiles, slope edges, platform tiles, crystal cluster decorations, 16-bit retro style, flat off-white background, no characters, no ui",
+    "check_cost": true
+  },
+  "status": "cost_only",
+  "balance_cost": 0.18,
+  "remaining_balance": 0.5,
+  "created_at_epoch": 1777516818,
+  "output_files": [],
+  "output_urls": [],
+  "response_json": "experiments/retro-diffusion/cave_crystal_tileset/cave-crystal-tileset-cost-response.json"
+}

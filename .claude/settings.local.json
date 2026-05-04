@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "mcp__godot__run_project",
+      "mcp__godot__capture_screenshot",
+      "mcp__godot__get_debug_output",
+      "Read(//c/Users/Afif/Documents/MCP-Servers/godot-mcp/**)",
+      "mcp__godot__get_remote_debug_output",
+      "Bash(python3 *)",
+      "PowerShell(if \\($env:RD_API_KEY\\) { \"RD_API_KEY is set in PowerShell session \\(length=$\\($env:RD_API_KEY.Length\\)\\)\" } else { \"RD_API_KEY not set in PowerShell session\" }; $user = [System.Environment]::GetEnvironmentVariable\\('RD_API_KEY','User'\\); $machine = [System.Environment]::GetEnvironmentVariable\\('RD_API_KEY','Machine'\\); \"User-scope: $\\([bool]$user\\)\"; \"Machine-scope: $\\([bool]$machine\\)\")",
+      "Bash(python .claude/skills/retro-diffusion/scripts/retro_inference_run.py --preset rd-pro-spritesheet --prompt 'pixel art tileset for a 2d platformer cave level, dark stone walls with glowing purple and cyan crystal formations, terrain ground tiles, wall tiles, ceiling tiles, slope edges, platform tiles, crystal cluster decorations, 16-bit retro style, flat off-white background, no characters, no ui' --width 256 --height 256 --check-cost --out-dir experiments/retro-diffusion/cave_crystal_tileset --filename-prefix cave-crystal-tileset-cost --task-slug level-5-cave-crystal-tileset)",
+      "Bash(python -m pip install --quiet \"pillow>=11.0.0\")",
+      "Bash(python .claude/skills/retro-diffusion/scripts/retro_inference_run.py --preset rd-pro-spritesheet --prompt 'pixel art tileset for a 2d platformer cave level, dark stone walls with glowing purple and cyan crystal formations, terrain ground tiles, wall tiles, ceiling tiles, slope edges, platform tiles, crystal cluster decorations, 16-bit retro style, flat off-white background, no characters, no ui' --width 256 --height 256 --out-dir experiments/retro-diffusion/cave_crystal_tileset --filename-prefix cave-crystal-tileset-v1 --task-slug level-5-cave-crystal-tileset)",
+      "Bash(python .claude/skills/retro-diffusion/scripts/retro_inference_run.py --preset rd-pro-spritesheet --prompt 'pixel art tileset for a 2d platformer cave level, dark stone tiles with edge and corner pieces for autotiling, top edge tiles with grass-like crystal trim, inner corners and outer corners, thin floating stone platforms with rounded ends, narrow horizontal platforms, glowing cyan and purple crystal accents, 16-bit retro style, flat off-white background, no characters, no ui' --width 256 --height 256 --out-dir experiments/retro-diffusion/cave_crystal_tileset --filename-prefix cave-crystal-tileset-v2 --task-slug level-5-cave-crystal-tileset-v2)",
+      "Bash(python -c \"import json; r=json.load\\(open\\('experiments/retro-diffusion/cave_crystal_tileset/cave-crystal-tileset-v2-run.json'\\)\\); print\\('cost:',r.get\\('balance_cost'\\),'remaining:',r.get\\('remaining_balance'\\)\\)\")",
+      "mcp__godot__launch_editor",
+      "Bash(python -)",
+      "Bash(python -m pip install --quiet numpy)",
+      "Bash(python experiments/retro-diffusion/cave_crystal_tileset/repack_to_grid.py)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "godot"
+  ]
+}
