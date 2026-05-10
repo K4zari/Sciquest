@@ -1,11 +1,17 @@
 extends Node2D
 
+# Flip to true to use the procedural cave-generator prototype for topic 5.
+const USE_PROCEDURAL_CAVE := true
+
 const TOPIC_LEVEL_SCENES := {
 	4: "res://scenes/level_4_plants.tscn",      # Forest
 	5: "res://scenes/level_5_light.tscn",       # Cave / Crystal
 	7: "res://scenes/level_7_energy.tscn",      # Volcano / Industrial
 	9: "res://scenes/level_9_earth.tscn",       # Space / Planet
 	10: "res://scenes/level_10_machines.tscn",  # Steampunk Factory
+}
+const PROCEDURAL_OVERRIDES := {
+	5: "res://scenes/level_5_light_v2.tscn",
 }
 const FALLBACK_LEVEL_SCENE := "res://scenes/level_1.tscn"
 
@@ -46,6 +52,8 @@ func _start_level(topic_id: int):
 	BattleManager.reset_session()
 
 	var scene_path : String = TOPIC_LEVEL_SCENES.get(topic_id, FALLBACK_LEVEL_SCENE)
+	if USE_PROCEDURAL_CAVE and PROCEDURAL_OVERRIDES.has(topic_id):
+		scene_path = PROCEDURAL_OVERRIDES[topic_id]
 	if not ResourceLoader.exists(scene_path):
 		push_warning("Level scene missing for topic %d (%s) — falling back to %s" % [topic_id, scene_path, FALLBACK_LEVEL_SCENE])
 		scene_path = FALLBACK_LEVEL_SCENE

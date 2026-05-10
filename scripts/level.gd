@@ -17,7 +17,7 @@ var tombstones : Array = []
 var tw : Tween
 var player : CharacterBody2D
 
-var interactable_in_range : Area2D
+var interactable_in_range : Node
 
 var pickable_scene : PackedScene = preload("res://scenes/pickable.tscn")
 var tomb_texture = preload("res://graphics/environment/tombstone.png")
@@ -33,6 +33,8 @@ func _input(event):
 			
 func _ready():
 	Globals.current_topic = topic_id
+	if not player_scene:
+		player_scene = load("res://scenes/forresta_2.tscn")
 	player = player_scene.instantiate()
 	player.global_position = player_spawn_spot.global_position
 	add_child(player)
@@ -113,7 +115,7 @@ func _on_projectile_spawned(projectile : Node2D):
 func _on_spawn_fireball_explosion(explosion : AnimatedSprite2D):
 	call_deferred("add_child", explosion)
 	
-func _on_player_near_interactable(interactable: Area2D):
+func _on_player_near_interactable(interactable: Node):
 	interactable_in_range = interactable
 	
 func _on_player_left_interactable():
