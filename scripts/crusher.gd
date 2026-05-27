@@ -3,7 +3,11 @@ class_name Crusher
 
 @export var height : int
 @export var auto : bool
+@export var controlled : bool
 @export_enum("Forest", "Cave", "Grassland", "OakWood", "Castle") var environment = 0
+
+signal lift_started
+signal lift_finished
 
 @onready var body = $Body
 @onready var head = $Body/Head
@@ -23,7 +27,9 @@ func _ready():
 	attack_collision_shape.set_deferred("disabled", true)
 	initial_pos = position.y
 	construct()
-	if auto:
+	if controlled:
+		player_detect_collision.set_deferred("disabled", true)
+	elif auto:
 		delay_timer.wait_time = randf_range(0.75, 2.0)
 		delay_timer.start()
 		player_detect_collision.set_deferred("disabled", true)
@@ -60,15 +66,19 @@ func _on_crush_step_finished(idx : int):
 		$GPUParticles2D.emitting = true
 	
 func _on_crush_finished():
+	lift_started.emit()
 	lift()
 	attack_collision_shape.set_deferred("disabled", true)
 
 func _on_lift_finished():
+	lift_finished.emit()
+	if controlled:
+		return
 	if not auto:
 		player_detect_collision.set_deferred("disabled", false)
 	else:
 		delay_timer.wait_time = randf_range(0.75, 2.0)
-		delay_timer.start()	
+		delay_timer.start()
 
 func _on_animation_player_animation_finished(_anim_name):
 	crush()

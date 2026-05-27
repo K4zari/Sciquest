@@ -322,8 +322,11 @@ exclude_parent = false
 target_position = Vector2(256, 0)
 collision_mask = 9
 
-[node name="FiniteStateMachine" parent="." index="2" node_paths=PackedStringArray("current_state")]
+[node name="FiniteStateMachine" parent="." index="2" node_paths=PackedStringArray("current_state", "animator", "actor", "pivot")]
 current_state = NodePath("IdleState")
+animator = NodePath("../AnimationPlayer")
+actor = NodePath("..")
+pivot = NodePath("../Pivot")
 
 [node name="IdleState" type="Node" parent="FiniteStateMachine" index="0"]
 script = ExtResource("4_83flb")
