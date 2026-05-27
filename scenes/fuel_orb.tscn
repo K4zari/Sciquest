@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8e7q4n2fuelo"]
+
+[ext_resource type="Script" path="res://scripts/fuel_orb.gd" id="1_orb"]
+[ext_resource type="Texture2D" uid="uid://cmampnyqda6ff" path="res://graphics/topic_7_energy/fuel_orbs_sheet.png" id="2_orb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_orb"]
+radius = 12.0
+
+[node name="FuelOrb" type="Area2D"]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("1_orb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_orb")
+offset = Vector2(0, -16)
+hframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("CircleShape2D_orb")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -32.0
+offset_top = -42.0
+offset_right = 32.0
+offset_bottom = -28.0
+horizontal_alignment = 1
+text = "Solar"

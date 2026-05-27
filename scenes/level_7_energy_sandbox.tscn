@@ -1,0 +1,414 @@
+[gd_scene load_steps=28 format=3 uid="uid://bogcnstxgifv3"]
+
+[ext_resource type="PackedScene" uid="uid://cb4nnnlumx3eq" path="res://scenes/level_template.tscn" id="1_tmpl"]
+[ext_resource type="Script" path="res://scripts/light/torch.gd" id="2_torch"]
+[ext_resource type="Script" path="res://scripts/light/light_beam.gd" id="3_beam"]
+[ext_resource type="Script" path="res://scripts/light/light_crystal.gd" id="4_cry"]
+[ext_resource type="Script" path="res://scripts/light/crystal_door.gd" id="5_door"]
+[ext_resource type="Texture2D" uid="uid://dq8yl4bk082gf" path="res://graphics/topic_7_energy/solar_panel_unlit.png" id="6_cunlit"]
+[ext_resource type="Texture2D" uid="uid://cjst7isbnr123" path="res://graphics/topic_7_energy/solar_panel_lit.png" id="7_clit"]
+[ext_resource type="Texture2D" uid="uid://cdm4h22l0whyr" path="res://graphics/light_props/door.png" id="8_doorimg"]
+[ext_resource type="Texture2D" uid="uid://bphp1twhnhw7g" path="res://graphics/light_props/wall_torch.png" id="9_wtorch"]
+[ext_resource type="PackedScene" uid="uid://caw4t6y2winda" path="res://scenes/wind_turbine.tscn" id="10_wind"]
+[ext_resource type="PackedScene" uid="uid://c2g4r5n6genrt" path="res://scenes/generator.tscn" id="11_gen"]
+[ext_resource type="PackedScene" uid="uid://b8e7q4n2fuelo" path="res://scenes/fuel_orb.tscn" id="12_orb"]
+[ext_resource type="PackedScene" uid="uid://dx73yjcnavc52" path="res://scenes/lever.tscn" id="13_lever"]
+[ext_resource type="PackedScene" uid="uid://dqqcmc062f1l5" path="res://scenes/bringer_of_death.tscn" id="14_boss"]
+[ext_resource type="PackedScene" uid="uid://kwvv7ktseocr" path="res://scenes/teleport.tscn" id="15_tport"]
+[ext_resource type="PackedScene" uid="uid://dmwe3em7ukh0w" path="res://scenes/info_board.tscn" id="16_info"]
+[ext_resource type="PackedScene" uid="uid://3qrm7uda1j8m" path="res://scenes/crusher.tscn" id="17_crush"]
+[ext_resource type="Script" path="res://scripts/boss_trigger.gd" id="18_btrig"]
+[ext_resource type="Script" path="res://scripts/boss_intro_cinematic.gd" id="19_bicin"]
+[ext_resource type="Script" path="res://scripts/boss_barrier.gd" id="20_bbar"]
+[ext_resource type="Texture2D" uid="uid://btppwlbubqsfk" path="res://graphics/topic_7_energy/volcano_parallax.png" id="21_parallax"]
+
+[sub_resource type="LabelSettings" id="sb_lbl"]
+font_size = 14
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="sb_crystal_shape"]
+size = Vector2(24, 24)
+
+[sub_resource type="RectangleShape2D" id="sb_door_shape"]
+size = Vector2(40, 70)
+
+[sub_resource type="RectangleShape2D" id="sb_floor_shape"]
+size = Vector2(3600, 64)
+
+[sub_resource type="LabelSettings" id="sb_zonelbl"]
+font_size = 22
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="sb_boss_trigger_shape"]
+size = Vector2(80, 160)
+
+[node name="Level7EnergySandbox" instance=ExtResource("1_tmpl")]
+topic_id = 7
+
+[node name="BringerOfDeath" parent="Enemies" index="0" node_paths=PackedStringArray("teleport_guarded") instance=ExtResource("14_boss")]
+modulate = Color(1.2, 0.65, 0.45, 1)
+position = Vector2(2820, 380)
+max_hp = 35
+current_damage = 5.0
+is_boss = true
+teleport_guarded = NodePath("../../Teleport")
+
+[node name="BossBarrier" type="Node2D" parent="Enemies/BringerOfDeath" index="11"]
+position = Vector2(0, -30)
+script = ExtResource("20_bbar")
+radius_x = 36.0
+radius_y = 50.0
+fill_color = Color(1, 0.45, 0.2, 0.2)
+stroke_color = Color(1, 0.55, 0.2, 0.85)
+glow_color = Color(1, 0.75, 0.35, 0.55)
+
+[node name="SolarTorch" type="Node2D" parent="Interactables" index="0"]
+position = Vector2(350, 220)
+script = ExtResource("2_torch")
+aim_angle_deg = 90.0
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/SolarTorch" index="0"]
+modulate = Color(1.4, 1.2, 0.4, 1)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("9_wtorch")
+
+[node name="LightBeam" type="Node2D" parent="Interactables/SolarTorch" index="1"]
+script = ExtResource("3_beam")
+beam_width = 4.0
+
+[node name="SolarTorchLabel" type="Label" parent="Interactables/SolarTorch" index="2"]
+offset_left = -60.0
+offset_top = -40.0
+offset_right = 60.0
+offset_bottom = -22.0
+text = "Sun"
+label_settings = SubResource("sb_lbl")
+horizontal_alignment = 1
+
+[node name="SolarPanel" type="Area2D" parent="Interactables" index="1"]
+position = Vector2(350, 400)
+script = ExtResource("4_cry")
+crystal_id = "sandbox_solar"
+unlit_texture = ExtResource("6_cunlit")
+lit_texture = ExtResource("7_clit")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/SolarPanel" index="0"]
+shape = SubResource("sb_crystal_shape")
+
+[node name="Visual" type="Sprite2D" parent="Interactables/SolarPanel" index="1"]
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("6_cunlit")
+offset = Vector2(0, -16)
+
+[node name="LabelSolar" type="Label" parent="Interactables/SolarPanel" index="2"]
+offset_left = -60.0
+offset_top = -50.0
+offset_right = 60.0
+offset_bottom = -32.0
+text = "Solar Panel"
+label_settings = SubResource("sb_lbl")
+horizontal_alignment = 1
+
+[node name="SolarGate" type="StaticBody2D" parent="Interactables" index="2"]
+position = Vector2(600, 372)
+script = ExtResource("5_door")
+linked_crystal_id = "sandbox_solar"
+open_offset = Vector2(0, -90)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/SolarGate" index="0"]
+shape = SubResource("sb_door_shape")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/SolarGate" index="1"]
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("8_doorimg")
+
+[node name="SolarGateLabel" type="Label" parent="Interactables/SolarGate" index="2"]
+offset_left = -90.0
+offset_top = -75.0
+offset_right = 90.0
+offset_bottom = -55.0
+text = "Solar Gate"
+label_settings = SubResource("sb_lbl")
+horizontal_alignment = 1
+
+[node name="WindLever" parent="Interactables" index="3" node_paths=PackedStringArray("targets") instance=ExtResource("13_lever")]
+position = Vector2(960, 392)
+targets = [NodePath("../WindTurbine")]
+
+[node name="WindLeverLabel" type="Label" parent="Interactables/WindLever" index="3"]
+offset_left = -60.0
+offset_top = -40.0
+offset_right = 60.0
+offset_bottom = -22.0
+text = "Open vents"
+label_settings = SubResource("sb_lbl")
+horizontal_alignment = 1
+
+[node name="WindTurbine" parent="Interactables" index="4" instance=ExtResource("10_wind")]
+position = Vector2(1060, 360)
+crystal_id = "sandbox_wind"
+
+[node name="WindTurbineLabel" type="Label" parent="Interactables/WindTurbine" index="2"]
+offset_left = -60.0
+offset_top = -110.0
+offset_right = 60.0
+offset_bottom = -90.0
+text = "Wind Turbine"
+label_settings = SubResource("sb_lbl")
+horizontal_alignment = 1
+
+[node name="WindGate" type="StaticBody2D" parent="Interactables" index="5"]
+position = Vector2(1280, 372)
+script = ExtResource("5_door")
+linked_crystal_id = "sandbox_wind"
+open_offset = Vector2(0, -90)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/WindGate" index="0"]
+shape = SubResource("sb_door_shape")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/WindGate" index="1"]
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("8_doorimg")
+
+[node name="WindGateLabel" type="Label" parent="Interactables/WindGate" index="2"]
+offset_left = -90.0
+offset_top = -75.0
+offset_right = 90.0
+offset_bottom = -55.0
+text = "Wind Gate"
+label_settings = SubResource("sb_lbl")
+horizontal_alignment = 1
+
+[node name="FuelOrbSolar" parent="Interactables" index="6" instance=ExtResource("12_orb")]
+position = Vector2(1520, 405)
+label_text = "Solar"
+
+[node name="FuelOrbWater" parent="Interactables" index="7" instance=ExtResource("12_orb")]
+position = Vector2(1580, 405)
+source = 1
+label_text = "Water"
+
+[node name="FuelOrbWind" parent="Interactables" index="8" instance=ExtResource("12_orb")]
+position = Vector2(1640, 405)
+source = 2
+label_text = "Wind"
+
+[node name="FuelOrbCoal" parent="Interactables" index="9" instance=ExtResource("12_orb")]
+position = Vector2(1700, 405)
+source = 3
+label_text = "Coal"
+
+[node name="FuelOrbBiomass" parent="Interactables" index="10" instance=ExtResource("12_orb")]
+position = Vector2(1760, 405)
+source = 4
+label_text = "Biomass"
+
+[node name="GeneratorSolar" parent="Interactables" index="11" instance=ExtResource("11_gen")]
+position = Vector2(1900, 380)
+crystal_id = "sandbox_gen_solar"
+label_text = "Solar Cell"
+
+[node name="GeneratorWater" parent="Interactables" index="12" instance=ExtResource("11_gen")]
+position = Vector2(2050, 380)
+accepted_source = 1
+crystal_id = "sandbox_gen_water"
+label_text = "Water Turbine"
+
+[node name="GeneratorWind" parent="Interactables" index="13" instance=ExtResource("11_gen")]
+position = Vector2(2200, 380)
+accepted_source = 2
+crystal_id = "sandbox_gen_wind"
+label_text = "Wind Generator"
+
+[node name="LabGateA" type="StaticBody2D" parent="Interactables" index="14"]
+position = Vector2(2360, 372)
+script = ExtResource("5_door")
+linked_crystal_id = "sandbox_gen_solar"
+open_offset = Vector2(0, -90)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/LabGateA" index="0"]
+shape = SubResource("sb_door_shape")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/LabGateA" index="1"]
+modulate = Color(1.1, 0.7, 0.3, 1)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("8_doorimg")
+
+[node name="LabGateB" type="StaticBody2D" parent="Interactables" index="15"]
+position = Vector2(2410, 372)
+script = ExtResource("5_door")
+linked_crystal_id = "sandbox_gen_water"
+open_offset = Vector2(0, -90)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/LabGateB" index="0"]
+shape = SubResource("sb_door_shape")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/LabGateB" index="1"]
+modulate = Color(1.1, 0.7, 0.3, 1)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("8_doorimg")
+
+[node name="LabGateC" type="StaticBody2D" parent="Interactables" index="16"]
+position = Vector2(2460, 372)
+script = ExtResource("5_door")
+linked_crystal_id = "sandbox_gen_wind"
+open_offset = Vector2(0, -90)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/LabGateC" index="0"]
+shape = SubResource("sb_door_shape")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/LabGateC" index="1"]
+modulate = Color(1.1, 0.7, 0.3, 1)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("8_doorimg")
+
+[node name="LabGateLabel" type="Label" parent="Interactables" index="17"]
+offset_left = 2320.0
+offset_top = 280.0
+offset_right = 2500.0
+offset_bottom = 300.0
+text = "Lab Exit (3 locks)"
+label_settings = SubResource("sb_lbl")
+horizontal_alignment = 1
+
+[node name="DemoCrusher" parent="Hazards" index="0" instance=ExtResource("17_crush")]
+position = Vector2(880, 280)
+height = 3
+auto = true
+environment = 4
+
+[node name="InfoBoardZoneA" parent="InfoBoards" index="0" instance=ExtResource("16_info")]
+position = Vector2(240, 400)
+description = "Aim sunlight at the solar panel to power the gate. Solar energy is renewable — it never runs out."
+
+[node name="InfoBoardSolarTransform" parent="InfoBoards" index="1" instance=ExtResource("16_info")]
+position = Vector2(670, 400)
+description = "The panel transformed light energy into electrical energy. Energy was not created — it just changed form."
+
+[node name="InfoBoardKinetic" parent="InfoBoards" index="2" instance=ExtResource("16_info")]
+position = Vector2(820, 400)
+description = "Moving objects have kinetic energy. The raised press head stores potential energy that becomes kinetic when it drops."
+
+[node name="InfoBoardWind" parent="InfoBoards" index="3" instance=ExtResource("16_info")]
+position = Vector2(1140, 400)
+description = "Pull the lever to open vents. Wind is moving air — kinetic energy. The turbine converts it to electrical energy."
+
+[node name="InfoBoardConservation" parent="InfoBoards" index="4" instance=ExtResource("16_info")]
+position = Vector2(1460, 400)
+description = "Conservation of Energy: energy cannot be created or destroyed — only transformed between forms."
+
+[node name="InfoBoardSorting" parent="InfoBoards" index="5" instance=ExtResource("16_info")]
+position = Vector2(1820, 400)
+description = "Walk into an orb to pick it up. Press E at the right generator to insert. Press Q to drop. Wrong orb gets ejected. Coal is non-renewable — beware."
+
+[node name="InfoBoardBoss" parent="InfoBoards" index="6" instance=ExtResource("16_info")]
+position = Vector2(2580, 400)
+description = "Magmatar, the Coal Tycoon, awaits. Defeat him to free the plant."
+
+[node name="PlayerSpawnSpot" parent="." index="9"]
+position = Vector2(80, 380)
+
+[node name="Background" type="TextureRect" parent="." index="10"]
+modulate = Color(0.85, 0.78, 0.78, 1)
+z_index = -10
+offset_left = -200.0
+offset_top = -400.0
+offset_right = 3600.0
+offset_bottom = 700.0
+texture = ExtResource("21_parallax")
+stretch_mode = 1
+
+[node name="Floor" type="StaticBody2D" parent="." index="11"]
+position = Vector2(1600, 440)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" index="0"]
+shape = SubResource("sb_floor_shape")
+
+[node name="FloorVisual" type="ColorRect" parent="Floor" index="1"]
+offset_left = -1800.0
+offset_top = -32.0
+offset_right = 1800.0
+offset_bottom = 32.0
+color = Color(0.25, 0.15, 0.13, 1)
+
+[node name="ZoneALabel" type="Label" parent="." index="12"]
+offset_left = 200.0
+offset_top = 150.0
+offset_right = 700.0
+offset_bottom = 180.0
+text = "ZONE A — Solar / Renewable"
+label_settings = SubResource("sb_zonelbl")
+
+[node name="ZoneBLabel" type="Label" parent="." index="13"]
+offset_left = 850.0
+offset_top = 150.0
+offset_right = 1350.0
+offset_bottom = 180.0
+text = "ZONE B — Kinetic / Wind"
+label_settings = SubResource("sb_zonelbl")
+
+[node name="ZoneCLabel" type="Label" parent="." index="14"]
+offset_left = 1500.0
+offset_top = 150.0
+offset_right = 2400.0
+offset_bottom = 180.0
+text = "ZONE C — Energy Sorting Lab"
+label_settings = SubResource("sb_zonelbl")
+
+[node name="BossArenaLabel" type="Label" parent="." index="15"]
+offset_left = 2600.0
+offset_top = 150.0
+offset_right = 3100.0
+offset_bottom = 180.0
+text = "BOSS — Magmatar"
+label_settings = SubResource("sb_zonelbl")
+
+[node name="BossTrigger" type="Area2D" parent="." index="16" node_paths=PackedStringArray("boss")]
+position = Vector2(2620, 380)
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("18_btrig")
+boss = NodePath("../Enemies/BringerOfDeath")
+boss_display_name = "Magmatar"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BossTrigger" index="0"]
+shape = SubResource("sb_boss_trigger_shape")
+
+[node name="BossIntroCinematic" type="CanvasLayer" parent="." index="17"]
+layer = 64
+script = ExtResource("19_bicin")
+
+[node name="TopBar" type="ColorRect" parent="BossIntroCinematic" index="0"]
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
+
+[node name="BottomBar" type="ColorRect" parent="BossIntroCinematic" index="1"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="BossNameLabel" type="RichTextLabel" parent="BossIntroCinematic/BottomBar" index="0"]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[center][color=#ff8833]◆[/color]  [color=white][b]MAGMATAR[/b][/color]  [color=#ff8833]◆[/color][/center]"
+fit_content = true
+
+[node name="Teleport" parent="." index="18" node_paths=PackedStringArray("level_node") instance=ExtResource("15_tport")]
+position = Vector2(3000, 380)
+level_node = NodePath("..")
+active = false
+
+[connection signal="body_entered" from="BossTrigger" to="BossTrigger" method="_on_body_entered"]
