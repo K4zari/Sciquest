@@ -11,6 +11,9 @@ var player_scene : PackedScene
 @export var exit_left : bool
 @export var max_tombstones : int = 10
 @export var topic_id : int = 4
+@export var camera_limit_bottom_override : int = 0
+@export var bottom_border_y_override : int = 0
+@export var camera_offset_y_override : int = 0
 
 var tombstones : Array = []
 
@@ -18,6 +21,12 @@ var tw : Tween
 var player : CharacterBody2D
 
 var interactable_in_range : Node
+
+var _level_start_time : float = 0.0
+var _enemies_defeated : int = 0
+var _death_count : int = 0
+var _questions_correct : int = 0
+var _questions_total : int = 0
 
 var pickable_scene : PackedScene = preload("res://scenes/pickable.tscn")
 var tomb_texture = preload("res://graphics/environment/tombstone.png")
@@ -29,7 +38,13 @@ func _input(event):
 		if event.is_pressed() and event.keycode == KEY_E:
 			if !interactable_in_range:
 				return
+			if interactable_in_range is Mirror:
+				return
 			interactable_in_range.interact()
+
+func _process(delta):
+	if interactable_in_range is Mirror and Input.is_key_pressed(KEY_E):
+		interactable_in_range.continuous_rotate(delta)
 			
 func _ready():
 	Globals.current_topic = topic_id
@@ -38,7 +53,17 @@ func _ready():
 	player = player_scene.instantiate()
 	player.global_position = player_spawn_spot.global_position
 	add_child(player)
+	if camera_limit_bottom_override != 0:
+		player.camera.limit_bottom = camera_limit_bottom_override
+	if bottom_border_y_override != 0:
+		move_bottom_border(-bottom_border_y_override)
+	if camera_offset_y_override != 0:
+		player.camera.position.y = camera_offset_y_override
 	connect_signals()
+
+	_level_start_time = Time.get_ticks_msec() / 1000.0
+	if not BattleManager.battle_ended.is_connected(_on_battle_ended):
+		BattleManager.battle_ended.connect(_on_battle_ended)
 
 	SceneChanger.fade_in()
 
@@ -90,7 +115,7 @@ func _on_pickable_dropped(item : Globals.Pickups):
 	call_deferred("add_child", pickable)
 		
 func _on_player_died(place_tombstone : bool = true):
-
+	_death_count += 1
 	await get_tree().create_timer(1.0).timeout
 	SceneChanger.fade_out()
 	await get_tree().create_timer(1.0).timeout
@@ -121,10 +146,26 @@ func _on_player_near_interactable(interactable: Node):
 func _on_player_left_interactable():
 	interactable_in_range = null
 
-func _on_monster_died(monster : BasicEnemy):
-	if monster.is_boss:
+func _on_monster_died(monster):
+	_enemies_defeated += 1
+	if monster.is_boss and monster.teleport_guarded:
 		monster.teleport_guarded.activate()
 	monster.queue_free()
+
+func _on_battle_ended(_won : bool, correct : int, total : int):
+	_questions_correct += correct
+	_questions_total += total
+
+func get_completion_stats() -> Dictionary:
+	var elapsed : float = (Time.get_ticks_msec() / 1000.0) - _level_start_time
+	return {
+		"elapsed": elapsed,
+		"correct": _questions_correct,
+		"total": _questions_total,
+		"enemies_defeated": _enemies_defeated,
+		"deaths": _death_count,
+		"topic_id": topic_id,
+	}
 
 
 func _on_player_teleported():

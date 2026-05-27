@@ -347,8 +347,11 @@ disabled = false
 position = Vector2(-2, -14)
 shape = SubResource("RectangleShape2D_73lb7")
 
-[node name="FiniteStateMachine" parent="." index="2" node_paths=PackedStringArray("current_state")]
+[node name="FiniteStateMachine" parent="." index="2" node_paths=PackedStringArray("current_state", "animator", "actor", "pivot")]
 current_state = NodePath("IdleState")
+animator = NodePath("../AnimationPlayer")
+actor = NodePath("..")
+pivot = NodePath("../Pivot")
 
 [node name="IdleState" type="Node" parent="FiniteStateMachine" index="0"]
 script = ExtResource("4_5n380")

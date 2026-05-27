@@ -1,12 +1,12 @@
 extends Node2D
 
 # Flip to true to use the procedural cave-generator prototype for topic 5.
-const USE_PROCEDURAL_CAVE := true
+const USE_PROCEDURAL_CAVE := false
 
 const TOPIC_LEVEL_SCENES := {
 	4: "res://scenes/level_4_plants.tscn",      # Forest
-	5: "res://scenes/level_5_light.tscn",       # Cave / Crystal
-	7: "res://scenes/level_7_energy.tscn",      # Volcano / Industrial
+	5: "res://scenes/level_5_light_full.tscn",  # Cave / Crystal
+	7: "res://scenes/level_7_energy_sandbox.tscn", # Volcano / Industrial (SANDBOX — gameplay testing)
 	9: "res://scenes/level_9_earth.tscn",       # Space / Planet
 	10: "res://scenes/level_10_machines.tscn",  # Steampunk Factory
 }
@@ -67,8 +67,17 @@ func _start_level(topic_id: int):
 	hud.visible = true
 	EventBus.level_end_reached.connect(_on_level_completed, CONNECT_ONE_SHOT)
 
-func _on_level_completed(_level):
-	Globals.completed_topics.append(Globals.current_topic)
+func _on_level_completed(level):
+	var stats : Dictionary = level.get_completion_stats() if level and level.has_method("get_completion_stats") else {}
+	if Globals.player:
+		Globals.player.frozen = true
+	var screen : LevelCompleteScreen = preload("res://scripts/level_complete_screen.gd").new()
+	add_child(screen)
+	screen.setup(stats)
+	await screen.continue_pressed
+	screen.queue_free()
+	if not Globals.completed_topics.has(Globals.current_topic):
+		Globals.completed_topics.append(Globals.current_topic)
 	_cleanup_level()
 	_show_level_select()
 

@@ -21,7 +21,7 @@ size = Vector2(12, 26)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aah2j"]
 resource_local_to_scene = true
-size = Vector2(12, 42)
+size = Vector2(28, 42)
 
 [sub_resource type="Animation" id="Animation_cbrre"]
 resource_name = "Attack"
@@ -101,6 +101,22 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_7fji3"]
+resource_name = "Hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Marker2D/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [52, 53, 54]
 }
 
 [sub_resource type="Animation" id="Animation_s1q32"]
@@ -224,22 +240,6 @@ tracks/3/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_7fji3"]
-resource_name = "Hurt"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Marker2D/Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [52, 53, 54]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_x3d2q"]
 _data = {
 "Attack": SubResource("Animation_cbrre"),
@@ -251,7 +251,7 @@ _data = {
 }
 
 [node name="Skeleton" type="CharacterBody2D"]
-collision_layer = 16
+collision_layer = 48
 script = ExtResource("1_1qqlp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -300,45 +300,30 @@ target = NodePath("..")
 position = Vector2(0, -21)
 shape = SubResource("RectangleShape2D_aah2j")
 
-[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "animator", "actor", "pivot")]
 script = ExtResource("3_hygjd")
 current_state = NodePath("PatrolState")
+animator = NodePath("../AnimationPlayer")
+actor = NodePath("..")
+pivot = NodePath("../Marker2D")
 
-[node name="IdleState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor", "animator", "pivot")]
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("9_oxu7o")
-actor = NodePath("../..")
-animator = NodePath("../../AnimationPlayer")
-pivot = NodePath("../../Marker2D")
 
-[node name="PatrolState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor", "animator", "pivot")]
+[node name="PatrolState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("5_4puj2")
-actor = NodePath("../..")
-animator = NodePath("../../AnimationPlayer")
-pivot = NodePath("../../Marker2D")
 
-[node name="AttackState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor", "animator", "pivot")]
+[node name="AttackState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("6_rrgkt")
-actor = NodePath("../..")
-animator = NodePath("../../AnimationPlayer")
-pivot = NodePath("../../Marker2D")
 
-[node name="DieState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor", "animator", "pivot")]
+[node name="DieState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("7_p0avi")
-actor = NodePath("../..")
-animator = NodePath("../../AnimationPlayer")
-pivot = NodePath("../../Marker2D")
 
-[node name="ReviveState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor", "animator", "pivot")]
+[node name="ReviveState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("8_21bx7")
-actor = NodePath("../..")
-animator = NodePath("../../AnimationPlayer")
-pivot = NodePath("../../Marker2D")
 
-[node name="HurtState" type="Node" parent="FiniteStateMachine" node_paths=PackedStringArray("actor", "animator", "pivot")]
+[node name="HurtState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("11_l7dwb")
-actor = NodePath("../..")
-animator = NodePath("../../AnimationPlayer")
-pivot = NodePath("../../Marker2D")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

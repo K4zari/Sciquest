@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://dli8xkcgk1old"]
 
 [ext_resource type="Script" path="res://scripts/edu_world.gd" id="1_eduwld"]
 [ext_resource type="PackedScene" uid="uid://col3falvg0fba" path="res://scenes/hud.tscn" id="2_eduhud"]
@@ -10,3 +10,7 @@ script = ExtResource("1_eduwld")
 [node name="HUD" parent="." instance=ExtResource("2_eduhud")]
 
 [editable path="HUD"]
+[editable path="HUD/Control/HBoxContainer/VBoxContainer/HealthBar"]
+[editable path="HUD/Control/HBoxContainer/VBoxContainer/StaminaBar"]
+[editable path="HUD/Control/Inventory"]
+[editable path="HUD/Control/Inventory/VBoxContainer/MarginContainer/Background/MarginContainer2/InventorySlots/InventorySlot12"]

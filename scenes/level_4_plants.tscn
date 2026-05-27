@@ -188,10 +188,10 @@ position = Vector2(788, 384)
 facing_direction = -1
 
 [node name="Slime5" parent="Enemies" index="5" instance=ExtResource("23_wpqym")]
-position = Vector2(1220, 192)
+position = Vector2(1129, 336)
 
 [node name="Slime6" parent="Enemies" index="6" instance=ExtResource("23_wpqym")]
-position = Vector2(1268, 192)
+position = Vector2(1458, 304)
 
 [node name="Slime7" parent="Enemies" index="7" instance=ExtResource("23_wpqym")]
 position = Vector2(1116, 192)

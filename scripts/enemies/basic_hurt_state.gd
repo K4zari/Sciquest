@@ -15,3 +15,8 @@ func animation_finished():
 	actor.invul_timer.start()
 	transition.emit("PatrolState")
 
+func _on_animation_player_animation_finished(_anim_name):
+	if not is_current:
+		return
+	animation_finished()
+

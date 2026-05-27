@@ -9,7 +9,8 @@ func enter_state(_prev_state : State):
 		return
 	died.connect(actor._on_died)
 	actor.is_dead = true
-	actor.health_bar.hide()
+	if actor.health_bar:
+		actor.health_bar.hide()
 	animator.play("Die", -1, actor.die_anim_speed)
 	actor.velocity = Vector2.ZERO
 
@@ -17,3 +18,8 @@ func enter_state(_prev_state : State):
 func animation_finished():
 	await get_tree().create_timer(0.5).timeout
 	died.emit()
+
+func _on_animation_player_animation_finished(_anim_name):
+	if not is_current:
+		return
+	animation_finished()

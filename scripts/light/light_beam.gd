@@ -11,24 +11,15 @@ const NUDGE := 1.0
 @export_range(0.0, 1.0) var intensity : float = 1.0
 @export var enabled : bool = true
 
-var _line : Line2D
+var _line_pool : Array[Line2D] = []
+var _glow_pool : Array[Line2D] = []
 var _last_hits : Array = []
-
-func _ready():
-	_line = Line2D.new()
-	_line.width = beam_width
-	_line.default_color = beam_color
-	_line.joint_mode = Line2D.LINE_JOINT_BEVEL
-	_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-	_line.end_cap_mode = Line2D.LINE_CAP_ROUND
-	_line.z_index = 5
-	add_child(_line)
 
 func _physics_process(_delta : float):
 	if enabled:
 		_update_beam()
 	else:
-		_line.points = PackedVector2Array()
+		_hide_all_segments()
 		_last_hits.clear()
 
 func _update_beam() -> void:
@@ -36,9 +27,9 @@ func _update_beam() -> void:
 	var origin : Vector2 = global_position
 	var direction : Vector2 = Vector2.RIGHT.rotated(global_rotation)
 	var current_intensity : float = intensity
-	var points : PackedVector2Array = [Vector2.ZERO]
 	var exclude : Array = []
 	var new_hits : Array = []
+	var segments : Array = []
 
 	for bounce in MAX_BOUNCES:
 		var query := PhysicsRayQueryParameters2D.create(
@@ -53,15 +44,17 @@ func _update_beam() -> void:
 		var hit : Dictionary = space.intersect_ray(query)
 
 		if hit.is_empty():
-			points.append(to_local(origin + direction * BEAM_LENGTH))
+			segments.append({"start": origin, "end": origin + direction * BEAM_LENGTH, "intensity": current_intensity})
 			break
 
 		var collider = hit.collider
 		var hit_pos : Vector2 = hit.position
 		var hit_normal : Vector2 = hit.normal
 		if not is_instance_valid(collider) or not collider is Node:
+			segments.append({"start": origin, "end": hit_pos, "intensity": current_intensity})
 			break
-		points.append(to_local(hit_pos))
+
+		segments.append({"start": origin, "end": hit_pos, "intensity": current_intensity})
 
 		var stop : bool = _handle_hit(collider, hit_pos, hit_normal, current_intensity, new_hits, exclude)
 		if stop:
@@ -85,9 +78,52 @@ func _update_beam() -> void:
 		else:
 			break
 
-	_line.points = points
+	_render_segments(segments)
 	_emit_hit_changes(new_hits)
 	_last_hits = new_hits
+
+func _render_segments(segments : Array) -> void:
+	for i in segments.size():
+		var seg : Dictionary = segments[i]
+		var seg_intensity : float = seg.intensity
+		var alpha : float = beam_color.a * seg_intensity
+		var seg_color := Color(beam_color.r, beam_color.g, beam_color.b, alpha)
+		var glow_color := Color(beam_color.r, beam_color.g, beam_color.b, alpha * 0.25)
+		var pts := PackedVector2Array([to_local(seg.start), to_local(seg.end)])
+
+		var line := _get_segment_line(i, false)
+		line.points = pts
+		line.default_color = seg_color
+		line.visible = true
+
+		var glow := _get_segment_line(i, true)
+		glow.points = pts
+		glow.default_color = glow_color
+		glow.visible = true
+
+	for i in range(segments.size(), _line_pool.size()):
+		_line_pool[i].visible = false
+	for i in range(segments.size(), _glow_pool.size()):
+		_glow_pool[i].visible = false
+
+func _hide_all_segments() -> void:
+	for line in _line_pool:
+		line.visible = false
+	for line in _glow_pool:
+		line.visible = false
+
+func _get_segment_line(idx : int, is_glow : bool) -> Line2D:
+	var pool : Array[Line2D] = _glow_pool if is_glow else _line_pool
+	while pool.size() <= idx:
+		var line := Line2D.new()
+		line.width = beam_width * (3.5 if is_glow else 1.0)
+		line.joint_mode = Line2D.LINE_JOINT_BEVEL
+		line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+		line.end_cap_mode = Line2D.LINE_CAP_ROUND
+		line.z_index = 4 if is_glow else 5
+		add_child(line)
+		pool.append(line)
+	return pool[idx]
 
 func _handle_hit(collider, _hit_pos : Vector2, _hit_normal : Vector2, current_intensity : float, new_hits : Array, _exclude : Array) -> bool:
 	# Returns true if the beam should stop after this hit.

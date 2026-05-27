@@ -126,6 +126,8 @@ signal died
 
 
 func _input(event):
+	if BattleManager.is_active() or frozen:
+		return
 	if event is InputEventKey:
 		if event.is_action_pressed("ui_up"):
 			command = Commands.JUMP
@@ -155,7 +157,13 @@ func _input(event):
 					
 func _ready():
 	Globals.player = self
+	_apply_character_sprite()
 	startup()
+
+func _apply_character_sprite() -> void:
+	var texture : Texture2D = load(Globals.get_player_sheet_path())
+	if texture != null:
+		sprite.texture = texture
 
 func startup():
 	command = Commands.NULL

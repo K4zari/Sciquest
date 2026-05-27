@@ -189,7 +189,27 @@ var player_inventory : Inventory
 
 var current_topic : int = 4
 var selected_character : String = "male"
+const PLAYER_SHEET_PATHS : Dictionary = {
+	"male": "res://graphics/spritesheets/forresta_ahmad.png",
+	"female": "res://graphics/spritesheets/forresta_aishah.png",
+}
+const PLAYER_SHEET_FALLBACK : String = "res://graphics/spritesheets/forresta_spritesheet.png"
+
+func get_player_sheet_path() -> String:
+	var path : String = PLAYER_SHEET_PATHS.get(selected_character, PLAYER_SHEET_FALLBACK)
+	if not ResourceLoader.exists(path):
+		return PLAYER_SHEET_FALLBACK
+	return path
+
 var completed_topics : Array[int] = []
+var level_best_stars : Dictionary = {}  # topic_id (int) -> stars (1..3)
+
+func record_stars(topic_id : int, stars : int) -> bool:
+	var prev : int = level_best_stars.get(topic_id, 0)
+	if stars > prev:
+		level_best_stars[topic_id] = stars
+		return true
+	return false
 
 func add_tombstone(tombstone : Vector2):
 	tombstone_locations.append(tombstone)

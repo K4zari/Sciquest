@@ -18,6 +18,7 @@ var _battle_over: bool = false
 var _battle_active: bool = false
 var _camera_original_zoom: Vector2 = Vector2.ONE
 var _camera_original_offset: Vector2 = Vector2.ZERO
+var _camera_original_position_y: float = 0.0
 
 const BATTLE_ZOOM := Vector2(2.2, 2.2)
 const CAMERA_TWEEN_TIME := 0.4
@@ -26,7 +27,7 @@ const ENEMY_DEATH_DELAY := 1.0
 # Persists across all battles in a level so questions don't repeat
 var _level_used: Dictionary = {}  # topic_id -> Array[int]
 
-signal battle_ended(won: bool)
+signal battle_ended(won: bool, correct: int, total: int)
 
 func is_active() -> bool:
 	return _battle_active
@@ -74,13 +75,17 @@ func _zoom_camera_in():
 	if not is_instance_valid(_player) or not is_instance_valid(_player.camera):
 		return
 	var cam: Camera2D = _player.camera
+	cam.make_current()
 	_camera_original_zoom = cam.zoom
 	_camera_original_offset = cam.offset
+	_camera_original_position_y = cam.position.y
 	# Push the framing roughly halfway toward the enemy so both fit on-screen.
 	var midpoint_offset: Vector2 = (_enemy.global_position - _player.global_position) * 0.5
 	var tw := create_tween().set_parallel(true).set_ease(Tween.EASE_OUT)
 	tw.tween_property(cam, "zoom", BATTLE_ZOOM, CAMERA_TWEEN_TIME)
 	tw.tween_property(cam, "offset", midpoint_offset, CAMERA_TWEEN_TIME)
+	# Cancel any level-exploration camera offset; nudge 10 px up for nicer framing.
+	tw.tween_property(cam, "position:y", -10.0, CAMERA_TWEEN_TIME)
 
 func _zoom_camera_out():
 	if not is_instance_valid(_player) or not is_instance_valid(_player.camera):
@@ -89,6 +94,7 @@ func _zoom_camera_out():
 	var tw := create_tween().set_parallel(true).set_ease(Tween.EASE_OUT)
 	tw.tween_property(cam, "zoom", _camera_original_zoom, CAMERA_TWEEN_TIME)
 	tw.tween_property(cam, "offset", _camera_original_offset, CAMERA_TWEEN_TIME)
+	tw.tween_property(cam, "position:y", _camera_original_position_y, CAMERA_TWEEN_TIME)
 
 func _freeze_enemy(freeze: bool):
 	if not is_instance_valid(_enemy):
@@ -170,6 +176,10 @@ func _apply_wrong_answer():
 		_player.Stats.current_hp -= ceil(damage)
 	_player.launch_label("%d" % ceil(damage))
 	_flash_sprite(_player.sprite, Color(1, 0.4, 0.4))
+	if is_instance_valid(_enemy):
+		var anim : AnimationPlayer = _enemy.get_node_or_null("AnimationPlayer")
+		if anim and anim.has_animation("Attack"):
+			anim.play("Attack", -1, 1.5)
 
 func _flash_sprite(sprite: Node, flash_color: Color):
 	if not is_instance_valid(sprite):
@@ -219,4 +229,4 @@ func _finish_battle():
 		await get_tree().create_timer(0.5).timeout
 		_player.died.emit(true)
 
-	battle_ended.emit(_battle_won)
+	battle_ended.emit(_battle_won, _correct_count, _question_count)

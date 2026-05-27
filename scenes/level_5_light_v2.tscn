@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://blvl5lightv2"]
+[gd_scene load_steps=24 format=3 uid="uid://7tptteyoiihe"]
 
 [ext_resource type="PackedScene" uid="uid://cb4nnnlumx3eq" path="res://scenes/level_template.tscn" id="1_lt"]
 [ext_resource type="Script" path="res://scripts/light/torch.gd" id="2_torch"]
@@ -6,14 +6,33 @@
 [ext_resource type="Script" path="res://scripts/light/material_tile.gd" id="4_mat"]
 [ext_resource type="Script" path="res://scripts/light/light_crystal.gd" id="6_cry"]
 [ext_resource type="Script" path="res://scripts/light/crystal_door.gd" id="7_door"]
-[ext_resource type="Texture2D" path="res://graphics/light_props/crystal_unlit.png" id="11_cunlit"]
-[ext_resource type="Texture2D" path="res://graphics/light_props/crystal_lit.png" id="12_clit"]
-[ext_resource type="Texture2D" path="res://graphics/light_props/glass_clear.png" id="13_clear"]
-[ext_resource type="Texture2D" path="res://graphics/light_props/glass_tinted.png" id="14_tinted"]
-[ext_resource type="Texture2D" path="res://graphics/light_props/stone_block.png" id="15_stone"]
-[ext_resource type="Texture2D" path="res://graphics/light_props/door.png" id="16_door"]
-[ext_resource type="Texture2D" path="res://graphics/light_props/wall_torch.png" id="17_wtorch"]
-[ext_resource type="Texture2D" path="res://graphics/light_props/owl.png" id="18_owl"]
+[ext_resource type="Texture2D" uid="uid://vdg2il483gow" path="res://graphics/light_props/crystal_unlit.png" id="11_cunlit"]
+[ext_resource type="Texture2D" uid="uid://dkr2mdmdc4w15" path="res://graphics/light_props/crystal_lit.png" id="12_clit"]
+[ext_resource type="Texture2D" uid="uid://dybl6l4poupc" path="res://graphics/light_props/glass_clear.png" id="13_clear"]
+[ext_resource type="Texture2D" uid="uid://dkkf6yaxygiqm" path="res://graphics/light_props/glass_tinted.png" id="14_tinted"]
+[ext_resource type="Texture2D" uid="uid://cm20sd1u2vum2" path="res://graphics/light_props/stone_block.png" id="15_stone"]
+[ext_resource type="Texture2D" uid="uid://cdm4h22l0whyr" path="res://graphics/light_props/door.png" id="16_door"]
+[ext_resource type="Texture2D" uid="uid://bphp1twhnhw7g" path="res://graphics/light_props/wall_torch.png" id="17_wtorch"]
+[ext_resource type="Texture2D" uid="uid://cm8i1jnx6pnqs" path="res://graphics/light_props/owl.png" id="18_owl"]
+
+[sub_resource type="CircleShape2D" id="proximity_radius"]
+radius = 38.0
+
+[sub_resource type="LabelSettings" id="lbl"]
+font_size = 10
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="crystal_shape"]
+
+[sub_resource type="RectangleShape2D" id="door_shape"]
+size = Vector2(40, 70)
+
+[sub_resource type="RectangleShape2D" id="block_shape"]
+size = Vector2(28, 28)
+
+[sub_resource type="WorldBoundaryShape2D" id="bottom_boundary_lower"]
+distance = -480.0
 
 [sub_resource type="RectangleShape2D" id="floor_long"]
 size = Vector2(2400, 40)
@@ -21,112 +40,33 @@ size = Vector2(2400, 40)
 [sub_resource type="RectangleShape2D" id="ceiling_long"]
 size = Vector2(2400, 30)
 
-[sub_resource type="RectangleShape2D" id="block_shape"]
-size = Vector2(28, 28)
-
-[sub_resource type="RectangleShape2D" id="crystal_shape"]
-size = Vector2(20, 20)
-
-[sub_resource type="RectangleShape2D" id="door_shape"]
-size = Vector2(40, 70)
-
 [sub_resource type="RectangleShape2D" id="wall_short"]
 size = Vector2(40, 280)
-
-[sub_resource type="LabelSettings" id="lbl"]
-font_size = 10
-outline_size = 2
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="WorldBoundaryShape2D" id="bottom_boundary_lower"]
-distance = -480.0
-
-[sub_resource type="CircleShape2D" id="proximity_radius"]
-radius = 38.0
 
 [node name="Level5LightV2" instance=ExtResource("1_lt")]
 topic_id = 5
 
-[node name="CollisionShape2D" parent="BottomBorder"]
-shape = SubResource("bottom_boundary_lower")
-
-[node name="PlayerSpawnSpot" parent="."]
-position = Vector2(48, 280)
-
-[node name="Background" type="Polygon2D" parent="."]
-color = Color(0.04, 0.05, 0.09, 1)
-polygon = PackedVector2Array(-200, -250, 2600, -250, 2600, 500, -200, 500)
-z_index = -10
-
-[node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(1200, 380)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-shape = SubResource("floor_long")
-
-[node name="FloorVisual" type="Polygon2D" parent="Floor"]
-color = Color(0.18, 0.15, 0.12, 1)
-polygon = PackedVector2Array(-1200, -20, 1200, -20, 1200, 20, -1200, 20)
-
-[node name="Ceiling" type="StaticBody2D" parent="."]
-position = Vector2(1200, -180)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling"]
-shape = SubResource("ceiling_long")
-
-[node name="CeilingVisual" type="Polygon2D" parent="Ceiling"]
-color = Color(0.1, 0.08, 0.06, 1)
-polygon = PackedVector2Array(-1200, -15, 1200, -15, 1200, 15, -1200, 15)
-
-[node name="LeftWall" type="StaticBody2D" parent="."]
-position = Vector2(-20, 220)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
-shape = SubResource("wall_short")
-
-[node name="RightWall" type="StaticBody2D" parent="."]
-position = Vector2(2420, 220)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
-shape = SubResource("wall_short")
-
-[node name="Title" type="Label" parent="."]
-offset_left = 60.0
-offset_top = 90.0
-offset_right = 600.0
-offset_bottom = 110.0
-text = "Topic 5 — Properties of Light"
-label_settings = SubResource("lbl")
-
-[node name="Subtitle" type="Label" parent="."]
-offset_left = 60.0
-offset_top = 110.0
-offset_right = 600.0
-offset_bottom = 130.0
-text = "Walk right. Watch what happens to the light."
-label_settings = SubResource("lbl")
-
-[node name="Torch1" type="Node2D" parent="Interactables"]
+[node name="Torch1" type="Node2D" parent="Interactables" index="0"]
 position = Vector2(160, 320)
 script = ExtResource("2_torch")
 emit_on_start = false
 togglable = true
 
-[node name="Sprite" type="Sprite2D" parent="Interactables/Torch1"]
+[node name="Sprite" type="Sprite2D" parent="Interactables/Torch1" index="0"]
 scale = Vector2(0.45, 0.45)
 texture = ExtResource("17_wtorch")
 
-[node name="LightBeam" type="Node2D" parent="Interactables/Torch1"]
+[node name="LightBeam" type="Node2D" parent="Interactables/Torch1" index="1"]
 script = ExtResource("3_beam")
 
-[node name="Proximity" type="Area2D" parent="Interactables/Torch1"]
+[node name="Proximity" type="Area2D" parent="Interactables/Torch1" index="2"]
 collision_layer = 0
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Torch1/Proximity"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Torch1/Proximity" index="0"]
 shape = SubResource("proximity_radius")
 
-[node name="HintLabel" type="Label" parent="Interactables/Torch1"]
+[node name="HintLabel" type="Label" parent="Interactables/Torch1" index="3"]
 offset_left = -25.0
 offset_top = -55.0
 offset_right = 60.0
@@ -134,35 +74,35 @@ offset_bottom = -40.0
 text = "[E] Light torch"
 label_settings = SubResource("lbl")
 
-[node name="Crystal_R1" type="Area2D" parent="Interactables"]
+[node name="Crystal_R1" type="Area2D" parent="Interactables" index="1"]
 position = Vector2(420, 320)
 script = ExtResource("6_cry")
 crystal_id = "r1_tutorial"
 unlit_texture = ExtResource("11_cunlit")
 lit_texture = ExtResource("12_clit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crystal_R1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crystal_R1" index="0"]
 shape = SubResource("crystal_shape")
 
-[node name="Visual" type="Sprite2D" parent="Interactables/Crystal_R1"]
+[node name="Visual" type="Sprite2D" parent="Interactables/Crystal_R1" index="1"]
 modulate = Color(0.7, 0.7, 0.8, 1)
 scale = Vector2(0.22, 0.22)
 texture = ExtResource("11_cunlit")
 
-[node name="Door_R1" type="StaticBody2D" parent="Interactables"]
+[node name="Door_R1" type="StaticBody2D" parent="Interactables" index="2"]
 position = Vector2(540, 325)
 script = ExtResource("7_door")
 linked_crystal_id = "r1_tutorial"
 open_offset = Vector2(0, -90)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Door_R1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Door_R1" index="0"]
 shape = SubResource("door_shape")
 
-[node name="Sprite" type="Sprite2D" parent="Interactables/Door_R1"]
+[node name="Sprite" type="Sprite2D" parent="Interactables/Door_R1" index="1"]
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("16_door")
 
-[node name="Hint_R1" type="Label" parent="Interactables/Door_R1"]
+[node name="Hint_R1" type="Label" parent="Interactables/Door_R1" index="2"]
 offset_left = -65.0
 offset_top = -75.0
 offset_right = 65.0
@@ -170,44 +110,44 @@ offset_bottom = -55.0
 text = "Light hits crystal — door opens!"
 label_settings = SubResource("lbl")
 
-[node name="Torch_A" type="Node2D" parent="Interactables"]
+[node name="Torch_A" type="Node2D" parent="Interactables" index="3"]
 position = Vector2(680, 130)
 script = ExtResource("2_torch")
 
-[node name="Sprite" type="Sprite2D" parent="Interactables/Torch_A"]
+[node name="Sprite" type="Sprite2D" parent="Interactables/Torch_A" index="0"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("17_wtorch")
 
-[node name="LightBeam" type="Node2D" parent="Interactables/Torch_A"]
+[node name="LightBeam" type="Node2D" parent="Interactables/Torch_A" index="1"]
 script = ExtResource("3_beam")
 
-[node name="StoneBlock_A" type="StaticBody2D" parent="Interactables"]
+[node name="StoneBlock_A" type="StaticBody2D" parent="Interactables" index="4"]
 position = Vector2(820, 130)
 script = ExtResource("4_mat")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoneBlock_A"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/StoneBlock_A" index="0"]
 shape = SubResource("block_shape")
 
-[node name="Visual" type="Sprite2D" parent="Interactables/StoneBlock_A"]
+[node name="Visual" type="Sprite2D" parent="Interactables/StoneBlock_A" index="1"]
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("15_stone")
 
-[node name="Crystal_A" type="Area2D" parent="Interactables"]
+[node name="Crystal_A" type="Area2D" parent="Interactables" index="5"]
 position = Vector2(960, 130)
 script = ExtResource("6_cry")
 crystal_id = "row_a_stone"
 unlit_texture = ExtResource("11_cunlit")
 lit_texture = ExtResource("12_clit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crystal_A"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crystal_A" index="0"]
 shape = SubResource("crystal_shape")
 
-[node name="Visual" type="Sprite2D" parent="Interactables/Crystal_A"]
+[node name="Visual" type="Sprite2D" parent="Interactables/Crystal_A" index="1"]
 modulate = Color(0.7, 0.7, 0.8, 1)
 scale = Vector2(0.22, 0.22)
 texture = ExtResource("11_cunlit")
 
-[node name="LabelA" type="Label" parent="Interactables"]
+[node name="LabelA" type="Label" parent="Interactables" index="6"]
 offset_left = 985.0
 offset_top = 122.0
 offset_right = 1120.0
@@ -215,46 +155,46 @@ offset_bottom = 138.0
 text = "Stone — opaque"
 label_settings = SubResource("lbl")
 
-[node name="Torch_B" type="Node2D" parent="Interactables"]
+[node name="Torch_B" type="Node2D" parent="Interactables" index="7"]
 position = Vector2(680, 195)
 script = ExtResource("2_torch")
 
-[node name="Sprite" type="Sprite2D" parent="Interactables/Torch_B"]
+[node name="Sprite" type="Sprite2D" parent="Interactables/Torch_B" index="0"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("17_wtorch")
 
-[node name="LightBeam" type="Node2D" parent="Interactables/Torch_B"]
+[node name="LightBeam" type="Node2D" parent="Interactables/Torch_B" index="1"]
 script = ExtResource("3_beam")
 
-[node name="GlassClear_B" type="StaticBody2D" parent="Interactables"]
+[node name="GlassClear_B" type="StaticBody2D" parent="Interactables" index="8"]
 position = Vector2(820, 195)
 script = ExtResource("4_mat")
 material_type = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GlassClear_B"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GlassClear_B" index="0"]
 shape = SubResource("block_shape")
 
-[node name="Visual" type="Sprite2D" parent="Interactables/GlassClear_B"]
+[node name="Visual" type="Sprite2D" parent="Interactables/GlassClear_B" index="1"]
 modulate = Color(1, 1, 1, 0.7)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("13_clear")
 
-[node name="Crystal_B" type="Area2D" parent="Interactables"]
+[node name="Crystal_B" type="Area2D" parent="Interactables" index="9"]
 position = Vector2(960, 195)
 script = ExtResource("6_cry")
 crystal_id = "row_b_clear"
 unlit_texture = ExtResource("11_cunlit")
 lit_texture = ExtResource("12_clit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crystal_B"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crystal_B" index="0"]
 shape = SubResource("crystal_shape")
 
-[node name="Visual" type="Sprite2D" parent="Interactables/Crystal_B"]
+[node name="Visual" type="Sprite2D" parent="Interactables/Crystal_B" index="1"]
 modulate = Color(0.7, 0.7, 0.8, 1)
 scale = Vector2(0.22, 0.22)
 texture = ExtResource("11_cunlit")
 
-[node name="LabelB" type="Label" parent="Interactables"]
+[node name="LabelB" type="Label" parent="Interactables" index="10"]
 offset_left = 985.0
 offset_top = 187.0
 offset_right = 1130.0
@@ -262,46 +202,46 @@ offset_bottom = 203.0
 text = "Clear — transparent"
 label_settings = SubResource("lbl")
 
-[node name="Torch_C" type="Node2D" parent="Interactables"]
+[node name="Torch_C" type="Node2D" parent="Interactables" index="11"]
 position = Vector2(680, 260)
 script = ExtResource("2_torch")
 
-[node name="Sprite" type="Sprite2D" parent="Interactables/Torch_C"]
+[node name="Sprite" type="Sprite2D" parent="Interactables/Torch_C" index="0"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("17_wtorch")
 
-[node name="LightBeam" type="Node2D" parent="Interactables/Torch_C"]
+[node name="LightBeam" type="Node2D" parent="Interactables/Torch_C" index="1"]
 script = ExtResource("3_beam")
 
-[node name="GlassTinted_C" type="StaticBody2D" parent="Interactables"]
+[node name="GlassTinted_C" type="StaticBody2D" parent="Interactables" index="12"]
 position = Vector2(820, 260)
 script = ExtResource("4_mat")
 material_type = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GlassTinted_C"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/GlassTinted_C" index="0"]
 shape = SubResource("block_shape")
 
-[node name="Visual" type="Sprite2D" parent="Interactables/GlassTinted_C"]
+[node name="Visual" type="Sprite2D" parent="Interactables/GlassTinted_C" index="1"]
 modulate = Color(0.55, 0.85, 1.3, 0.95)
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("14_tinted")
 
-[node name="Crystal_C" type="Area2D" parent="Interactables"]
+[node name="Crystal_C" type="Area2D" parent="Interactables" index="13"]
 position = Vector2(960, 260)
 script = ExtResource("6_cry")
 crystal_id = "row_c_tinted"
 unlit_texture = ExtResource("11_cunlit")
 lit_texture = ExtResource("12_clit")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crystal_C"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crystal_C" index="0"]
 shape = SubResource("crystal_shape")
 
-[node name="Visual" type="Sprite2D" parent="Interactables/Crystal_C"]
+[node name="Visual" type="Sprite2D" parent="Interactables/Crystal_C" index="1"]
 modulate = Color(0.7, 0.7, 0.8, 1)
 scale = Vector2(0.22, 0.22)
 texture = ExtResource("11_cunlit")
 
-[node name="LabelC" type="Label" parent="Interactables"]
+[node name="LabelC" type="Label" parent="Interactables" index="14"]
 offset_left = 985.0
 offset_top = 252.0
 offset_right = 1140.0
@@ -309,20 +249,20 @@ offset_bottom = 268.0
 text = "Tinted — translucent"
 label_settings = SubResource("lbl")
 
-[node name="Door_R2" type="StaticBody2D" parent="Interactables"]
+[node name="Door_R2" type="StaticBody2D" parent="Interactables" index="15"]
 position = Vector2(1200, 325)
 script = ExtResource("7_door")
 linked_crystal_id = "row_b_clear"
 open_offset = Vector2(0, -90)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Door_R2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Door_R2" index="0"]
 shape = SubResource("door_shape")
 
-[node name="Sprite" type="Sprite2D" parent="Interactables/Door_R2"]
+[node name="Sprite" type="Sprite2D" parent="Interactables/Door_R2" index="1"]
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("16_door")
 
-[node name="Hint_R2" type="Label" parent="Interactables/Door_R2"]
+[node name="Hint_R2" type="Label" parent="Interactables/Door_R2" index="2"]
 offset_left = -75.0
 offset_top = -85.0
 offset_right = 75.0
@@ -330,12 +270,12 @@ offset_bottom = -65.0
 text = "Pass through!"
 label_settings = SubResource("lbl")
 
-[node name="Owl" type="Sprite2D" parent="Interactables"]
+[node name="Owl" type="Sprite2D" parent="Interactables" index="16"]
 position = Vector2(620, 330)
 scale = Vector2(0.28, 0.28)
 texture = ExtResource("18_owl")
 
-[node name="OwlHint" type="Label" parent="Interactables/Owl"]
+[node name="OwlHint" type="Label" parent="Interactables/Owl" index="0"]
 offset_left = -50.0
 offset_top = -55.0
 offset_right = 130.0
@@ -343,16 +283,75 @@ offset_bottom = -38.0
 text = "Some materials block light."
 label_settings = SubResource("lbl")
 
-[node name="EndZone" type="Area2D" parent="Interactables"]
+[node name="EndZone" type="Area2D" parent="Interactables" index="17"]
 position = Vector2(1500, 325)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EndZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/EndZone" index="0"]
 shape = SubResource("door_shape")
 
-[node name="EndLabel" type="Label" parent="Interactables/EndZone"]
+[node name="EndLabel" type="Label" parent="Interactables/EndZone" index="1"]
 offset_left = -60.0
 offset_top = -90.0
 offset_right = 60.0
 offset_bottom = -70.0
 text = "End of demo"
+label_settings = SubResource("lbl")
+
+[node name="CollisionShape2D" parent="BottomBorder" index="0"]
+shape = SubResource("bottom_boundary_lower")
+
+[node name="PlayerSpawnSpot" parent="." index="9"]
+position = Vector2(48, 280)
+
+[node name="Background" type="Polygon2D" parent="." index="10"]
+z_index = -10
+color = Color(0.04, 0.05, 0.09, 1)
+polygon = PackedVector2Array(-200, -250, 2600, -250, 2600, 500, -200, 500)
+
+[node name="Floor" type="StaticBody2D" parent="." index="11"]
+position = Vector2(1200, 380)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" index="0"]
+shape = SubResource("floor_long")
+
+[node name="FloorVisual" type="Polygon2D" parent="Floor" index="1"]
+color = Color(0.18, 0.15, 0.12, 1)
+polygon = PackedVector2Array(-1200, -20, 1200, -20, 1200, 20, -1200, 20)
+
+[node name="Ceiling" type="StaticBody2D" parent="." index="12"]
+position = Vector2(1200, -180)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ceiling" index="0"]
+shape = SubResource("ceiling_long")
+
+[node name="CeilingVisual" type="Polygon2D" parent="Ceiling" index="1"]
+color = Color(0.1, 0.08, 0.06, 1)
+polygon = PackedVector2Array(-1200, -15, 1200, -15, 1200, 15, -1200, 15)
+
+[node name="LeftWall" type="StaticBody2D" parent="." index="13"]
+position = Vector2(-20, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall" index="0"]
+shape = SubResource("wall_short")
+
+[node name="RightWall" type="StaticBody2D" parent="." index="14"]
+position = Vector2(2420, 220)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall" index="0"]
+shape = SubResource("wall_short")
+
+[node name="Title" type="Label" parent="." index="15"]
+offset_left = 60.0
+offset_top = 90.0
+offset_right = 600.0
+offset_bottom = 110.0
+text = "Topic 5 — Properties of Light"
+label_settings = SubResource("lbl")
+
+[node name="Subtitle" type="Label" parent="." index="16"]
+offset_left = 60.0
+offset_top = 110.0
+offset_right = 600.0
+offset_bottom = 130.0
+text = "Walk right. Watch what happens to the light."
 label_settings = SubResource("lbl")
