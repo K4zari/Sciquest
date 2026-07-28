@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://2yob786lrqqd"]
+[gd_scene load_steps=28 format=3 uid="uid://2yob786lrqqd"]
 
 [ext_resource type="PackedScene" uid="uid://cb4nnnlumx3eq" path="res://scenes/level_template.tscn" id="1_1qky0"]
 [ext_resource type="TileSet" uid="uid://1sfxdircnosj" path="res://resources/base_tile_set.tres" id="2_83g8q"]
@@ -17,21 +17,19 @@
 [ext_resource type="PackedScene" uid="uid://ddjjdr5oerhtx" path="res://scenes/slime.tscn" id="14_43gqh"]
 [ext_resource type="Material" uid="uid://dxi0iyrjtvjrx" path="res://resources/distortion_shader.tres" id="15_7bu2v"]
 [ext_resource type="Texture2D" uid="uid://bifpupmhqmkcj" path="res://graphics/environment/background/Layer_0000_9.png" id="15_chyg6"]
-[ext_resource type="PackedScene" uid="uid://dvbut8gnuy362" path="res://scenes/nightborne.tscn" id="15_f7xyn"]
 [ext_resource type="PackedScene" uid="uid://cm4j0j5hiofx2" path="res://scenes/chest.tscn" id="15_qaha3"]
 [ext_resource type="PackedScene" uid="uid://dmkcj3eu6uu5e" path="res://scenes/platform.tscn" id="15_ywnoq"]
-[ext_resource type="PackedScene" uid="uid://rut1njv5tspv" path="res://scenes/archer.tscn" id="16_dq7nv"]
 [ext_resource type="PackedScene" uid="uid://dx73yjcnavc52" path="res://scenes/lever.tscn" id="16_exkie"]
 [ext_resource type="PackedScene" uid="uid://c8jwiag0odji0" path="res://scenes/pickable.tscn" id="16_qwk11"]
 [ext_resource type="PackedScene" uid="uid://dgeyiu02mqyyj" path="res://scenes/checkpoint.tscn" id="21_eulvo"]
 [ext_resource type="PackedScene" uid="uid://3qrm7uda1j8m" path="res://scenes/crusher.tscn" id="23_b3vij"]
 [ext_resource type="PackedScene" uid="uid://dm704cv141q0m" path="res://scenes/trapdoor.tscn" id="25_7e3px"]
 [ext_resource type="PackedScene" uid="uid://ddfltd8p62atr" path="res://scenes/droplet_spawner.tscn" id="26_inmth"]
-[ext_resource type="PackedScene" uid="uid://dm8gngpvdasyo" path="res://scenes/fire_worm.tscn" id="27_wqdy2"]
 [ext_resource type="PackedScene" uid="uid://d8n0ketb64g5" path="res://scenes/secret_wall.tscn" id="29_jp28s"]
 [ext_resource type="PackedScene" uid="uid://kwvv7ktseocr" path="res://scenes/teleport.tscn" id="31_lwbgm"]
 
 [node name="Tutorial" instance=ExtResource("1_1qky0")]
+topic_id = 0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." index="0"]
 offset = Vector2(0, -340)
@@ -145,60 +143,19 @@ layer_2/z_index = 0
 layer_2/tile_data = PackedInt32Array(1049061, 327684, 2, 1114597, 327684, 2, 1180133, 327684, 2, 1245669, 327684, 2, 1049062, 65540, 2, 1114598, 65540, 2, 1180134, 65540, 2, 1245670, 65540, 2, 1049063, 327684, 2, 1114599, 327684, 2, 1180135, 327684, 2, 1245671, 327684, 2, 1049064, 65540, 2, 1114600, 65540, 2, 1180136, 65540, 2, 1245672, 65540, 2, 1049065, 327684, 2, 1114601, 327684, 2, 1180137, 327684, 2, 1245673, 327684, 2, 1049060, 65540, 2, 1114596, 65540, 2, 1180132, 65540, 2, 1245668, 65540, 2)
 
 [node name="Slime" parent="Enemies" index="0" instance=ExtResource("14_43gqh")]
-position = Vector2(1366, 192)
+position = Vector2(3652, 384)
 random_facing_direction = true
-
-[node name="Slime2" parent="Enemies" index="1" instance=ExtResource("14_43gqh")]
-position = Vector2(1430, 192)
-random_facing_direction = true
-
-[node name="Slime3" parent="Enemies" index="2" instance=ExtResource("14_43gqh")]
-position = Vector2(1848, 112)
-random_facing_direction = true
-
-[node name="Slime4" parent="Enemies" index="3" instance=ExtResource("14_43gqh")]
-position = Vector2(1952, 112)
-random_facing_direction = true
-
-[node name="Nightborne" parent="Enemies" index="4" node_paths=PackedStringArray("teleport_spots") instance=ExtResource("15_f7xyn")]
-position = Vector2(3768, 384)
-teleport_spots = [NodePath("../TeleportSpot")]
-max_hp = 15
-current_damage = 3.0
-random_facing_direction = true
-
-[node name="TeleportSpot" type="Marker2D" parent="Enemies" index="5"]
-position = Vector2(3576, 384)
-
-[node name="TeleportSpot2" type="Marker2D" parent="Enemies" index="6"]
-position = Vector2(7090, 367)
-
-[node name="Archer" parent="Enemies" index="7" instance=ExtResource("16_dq7nv")]
-position = Vector2(4840, 240)
-facing_direction = -1
-
-[node name="FireWorm" parent="Enemies" index="8" instance=ExtResource("27_wqdy2")]
-position = Vector2(5898, 304)
-
-[node name="Slime5" parent="Enemies" index="9" instance=ExtResource("14_43gqh")]
-position = Vector2(6234, 336)
-
-[node name="Slime6" parent="Enemies" index="10" instance=ExtResource("14_43gqh")]
-position = Vector2(6490, 400)
-
-[node name="Nightborne2" parent="Enemies" index="11" node_paths=PackedStringArray("teleport_spots") instance=ExtResource("15_f7xyn")]
-position = Vector2(7138, 368)
-teleport_spots = [NodePath("../TeleportSpot2")]
-facing_direction = -1
 
 [node name="Chest" parent="Pickups" index="0" instance=ExtResource("15_qaha3")]
 position = Vector2(2272, 400)
 
 [node name="Pickable" parent="Pickups" index="1" instance=ExtResource("16_qwk11")]
+visible = false
 position = Vector2(3136, 384)
 type = 3
 
 [node name="Pickable2" parent="Pickups" index="2" instance=ExtResource("16_qwk11")]
+visible = false
 position = Vector2(3152, 384)
 type = 3
 
@@ -206,6 +163,7 @@ type = 3
 position = Vector2(7808, 320)
 
 [node name="Chest3" parent="Pickups" index="4" instance=ExtResource("15_qaha3")]
+visible = false
 position = Vector2(2648, 320)
 content = 2
 
@@ -360,30 +318,32 @@ active = true
 
 [node name="InfoBoard" parent="InfoBoards" index="0" instance=ExtResource("3_7st4f")]
 position = Vector2(64, 400)
-description = "Press left and right to move"
+description = "Move with the Arrow Keys
+or the Left Stick."
 
 [node name="InfoBoard2" parent="InfoBoards" index="1" instance=ExtResource("3_7st4f")]
 position = Vector2(288, 400)
-description = "Press up to jump."
+description = "Press Up or (A) to jump."
 
 [node name="InfoBoard3" parent="InfoBoards" index="2" instance=ExtResource("3_7st4f")]
 position = Vector2(648, 368)
-description = "Press 'A' to dash.
+description = "Press 'A' or (RB) to dash.
 Dashing consumes stamina."
 
 [node name="InfoBoard4" parent="InfoBoards" index="3" instance=ExtResource("3_7st4f")]
 position = Vector2(1032, 368)
-description = "Press up while on wall 
-to perform a  wall jump."
+description = "Press Up or (A) while on a wall
+to perform a wall jump."
 
 [node name="InfoBoard5" parent="InfoBoards" index="4" instance=ExtResource("3_7st4f")]
 position = Vector2(1144, 192)
-description = "Press 'Z' to attack.
-Press 'X' for strong attack"
+description = "Attack: 'Z' key or (X) button.
+Attacking an enemy starts a quiz battle —
+answer correctly to win!"
 
 [node name="InfoBoard6" parent="InfoBoards" index="5" instance=ExtResource("3_7st4f")]
 position = Vector2(1448, 192)
-description = "Press 'E' to operate levers."
+description = "Press 'E' or (B) to operate levers."
 board_visible = false
 
 [node name="InfoBoard7" parent="InfoBoards" index="6" instance=ExtResource("3_7st4f")]
@@ -392,44 +352,33 @@ description = "Stick to the wall to slide down and avoid fall damage."
 
 [node name="InfoBoard8" parent="InfoBoards" index="7" instance=ExtResource("3_7st4f")]
 position = Vector2(2112, 400)
-description = "Press 'C' to slide. Don't hit your head!"
+description = "Press 'C' or (LB) to slide. Don't hit your head!"
 
 [node name="InfoBoard9" parent="InfoBoards" index="8" instance=ExtResource("3_7st4f")]
 position = Vector2(2272, 400)
-description = "Press 'E' to open chests.
+description = "Press 'E' or (B) to open chests.
 Press 'I' to check your inventory."
 board_visible = false
 
-[node name="InfoBoard10" parent="InfoBoards" index="9" instance=ExtResource("3_7st4f")]
-position = Vector2(3112, 384)
-description = "Use these potions to restore mana.
-Press 'V' to throw fireball.
-You're a fighter. Your mana doesn't regenerate!"
-
-[node name="InfoBoard11" parent="InfoBoards" index="10" instance=ExtResource("3_7st4f")]
-position = Vector2(3456, 336)
-description = "Press 'S' to block.
-Enemy attacks drain your stamina."
-
-[node name="InfoBoard12" parent="InfoBoards" index="11" instance=ExtResource("3_7st4f")]
+[node name="InfoBoard12" parent="InfoBoards" index="9" instance=ExtResource("3_7st4f")]
 position = Vector2(4384, 240)
-description = "Press down to duck."
+description = "Press Down to duck."
 
-[node name="InfoBoard13" parent="InfoBoards" index="12" instance=ExtResource("3_7st4f")]
+[node name="InfoBoard13" parent="InfoBoards" index="10" instance=ExtResource("3_7st4f")]
 position = Vector2(5056, 288)
 description = "Beware of the crushers!
 They bring instant death."
 
-[node name="InfoBoard14" parent="InfoBoards" index="13" instance=ExtResource("3_7st4f")]
+[node name="InfoBoard14" parent="InfoBoards" index="11" instance=ExtResource("3_7st4f")]
 position = Vector2(6848, 368)
 description = "Yay! Trapdoors!"
 
-[node name="InfoBoard15" parent="InfoBoards" index="14" instance=ExtResource("3_7st4f")]
+[node name="InfoBoard15" parent="InfoBoards" index="12" instance=ExtResource("3_7st4f")]
 position = Vector2(7672, 272)
 description = "Some things are hidden to the eye.
 Look closely..."
 
-[node name="InfoBoard16" parent="InfoBoards" index="15" instance=ExtResource("3_7st4f")]
+[node name="InfoBoard16" parent="InfoBoards" index="13" instance=ExtResource("3_7st4f")]
 position = Vector2(8384, 208)
 description = "You should know the basics by now.
 Time for the real adventure!"
@@ -445,12 +394,18 @@ initial_pos = Vector2i(484, 16)
 [node name="Checkpoint" parent="." index="11" instance=ExtResource("21_eulvo")]
 position = Vector2(1816, 112)
 
-[node name="Checkpoint2" parent="." index="12" instance=ExtResource("21_eulvo")]
+[node name="Checkpoint3" parent="." index="12" instance=ExtResource("21_eulvo")]
+position = Vector2(2359, 400)
+
+[node name="Checkpoint4" parent="." index="13" instance=ExtResource("21_eulvo")]
+position = Vector2(4822, 241)
+
+[node name="Checkpoint2" parent="." index="14" instance=ExtResource("21_eulvo")]
 position = Vector2(7520, 320)
 
-[node name="Teleport" parent="." index="13" node_paths=PackedStringArray("level_node") instance=ExtResource("31_lwbgm")]
+[node name="Teleport" parent="." index="15" node_paths=PackedStringArray("level_node") instance=ExtResource("31_lwbgm")]
 position = Vector2(8544, 184)
 level_node = NodePath("..")
 
-[node name="PlayerSpawnSpot" parent="." index="14"]
+[node name="PlayerSpawnSpot" parent="." index="16"]
 position = Vector2(64, 400)
