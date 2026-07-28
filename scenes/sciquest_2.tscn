@@ -1,34 +1,32 @@
-[gd_scene load_steps=62 format=3 uid="uid://c5gxigac4utpj"]
+[gd_scene load_steps=58 format=3 uid="uid://c5gxigac4utpj"]
 
-[ext_resource type="Script" path="res://scripts/forresta/forresta_2.gd" id="1_r76nr"]
-[ext_resource type="Shader" path="res://resources/forresta.gdshader" id="2_fsudy"]
-[ext_resource type="Texture2D" uid="uid://1emvjsf601tx" path="res://graphics/spritesheets/forresta_spritesheet.png" id="5_goxea"]
+[ext_resource type="Script" path="res://scripts/sciquest/sciquest_2.gd" id="1_r76nr"]
+[ext_resource type="Shader" path="res://resources/sciquest.gdshader" id="2_fsudy"]
+[ext_resource type="Texture2D" uid="uid://1emvjsf601tx" path="res://graphics/spritesheets/sciquest_spritesheet.png" id="5_goxea"]
 [ext_resource type="Texture2D" uid="uid://c2jcijrdyx6h2" path="res://graphics/spritesheets/7_firespin_spritesheet.png" id="6_ynpbn"]
 [ext_resource type="Material" uid="uid://c07h6q28t0nb1" path="res://resources/death_effect_material.tres" id="7_s14qm"]
 [ext_resource type="PackedScene" uid="uid://dhber54gts68q" path="res://scenes/attack_box.tscn" id="7_vkqrv"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="8_fwnn7"]
 [ext_resource type="Script" path="res://scripts/fsm.gd" id="9_d5wbu"]
-[ext_resource type="Script" path="res://scripts/forresta/idle_state.gd" id="10_61x1q"]
-[ext_resource type="Script" path="res://scripts/forresta/run_state.gd" id="11_6sfih"]
-[ext_resource type="Script" path="res://scripts/forresta/jump_state.gd" id="12_tv1gr"]
-[ext_resource type="Script" path="res://scripts/forresta/fall_state.gd" id="13_qu1fs"]
-[ext_resource type="Script" path="res://scripts/forresta/slide_state.gd" id="14_rskcl"]
-[ext_resource type="Script" path="res://scripts/forresta/crouch_state.gd" id="15_rf2ip"]
-[ext_resource type="Script" path="res://scripts/forresta/sit_state.gd" id="16_qyjxr"]
-[ext_resource type="Script" path="res://scripts/forresta/stand_up_state.gd" id="17_07mpk"]
-[ext_resource type="Script" path="res://scripts/forresta/attack_state.gd" id="18_onnux"]
-[ext_resource type="Script" path="res://scripts/forresta/die_state.gd" id="19_xeb6x"]
-[ext_resource type="Script" path="res://scripts/forresta/edge_grab_state.gd" id="20_52vfi"]
-[ext_resource type="Script" path="res://scripts/forresta/edge_hang_state.gd" id="21_7proh"]
-[ext_resource type="Script" path="res://scripts/forresta/wall_slide_state.gd" id="22_sdi41"]
-[ext_resource type="Script" path="res://scripts/forresta/hurt_state.gd" id="23_f5gew"]
-[ext_resource type="Script" path="res://scripts/forresta/dash_state.gd" id="24_0vo50"]
-[ext_resource type="Script" path="res://scripts/forresta/ladder_climb_state.gd" id="25_xywkt"]
-[ext_resource type="Script" path="res://scripts/forresta/teleport_state.gd" id="26_rgjjj"]
+[ext_resource type="Script" path="res://scripts/sciquest/idle_state.gd" id="10_61x1q"]
+[ext_resource type="Script" path="res://scripts/sciquest/run_state.gd" id="11_6sfih"]
+[ext_resource type="Script" path="res://scripts/sciquest/jump_state.gd" id="12_tv1gr"]
+[ext_resource type="Script" path="res://scripts/sciquest/fall_state.gd" id="13_qu1fs"]
+[ext_resource type="Script" path="res://scripts/sciquest/slide_state.gd" id="14_rskcl"]
+[ext_resource type="Script" path="res://scripts/sciquest/crouch_state.gd" id="15_rf2ip"]
+[ext_resource type="Script" path="res://scripts/sciquest/sit_state.gd" id="16_qyjxr"]
+[ext_resource type="Script" path="res://scripts/sciquest/stand_up_state.gd" id="17_07mpk"]
+[ext_resource type="Script" path="res://scripts/sciquest/attack_state.gd" id="18_onnux"]
+[ext_resource type="Script" path="res://scripts/sciquest/die_state.gd" id="19_xeb6x"]
+[ext_resource type="Script" path="res://scripts/sciquest/edge_grab_state.gd" id="20_52vfi"]
+[ext_resource type="Script" path="res://scripts/sciquest/edge_hang_state.gd" id="21_7proh"]
+[ext_resource type="Script" path="res://scripts/sciquest/wall_slide_state.gd" id="22_sdi41"]
+[ext_resource type="Script" path="res://scripts/sciquest/hurt_state.gd" id="23_f5gew"]
+[ext_resource type="Script" path="res://scripts/sciquest/dash_state.gd" id="24_0vo50"]
+[ext_resource type="Script" path="res://scripts/sciquest/ladder_climb_state.gd" id="25_xywkt"]
+[ext_resource type="Script" path="res://scripts/sciquest/teleport_state.gd" id="26_rgjjj"]
 [ext_resource type="Script" path="res://scripts/knockback_state.gd" id="27_aukvd"]
-[ext_resource type="Script" path="res://scripts/forresta/block_state.gd" id="28_5i5ts"]
-[ext_resource type="Script" path="res://scripts/forresta/cast_state.gd" id="29_xh1qo"]
-[ext_resource type="Script" path="res://scripts/forresta/drown_state.gd" id="30_k31cb"]
+[ext_resource type="Script" path="res://scripts/sciquest/drown_state.gd" id="30_k31cb"]
 [ext_resource type="FontFile" uid="uid://dxr5hklbtmwil" path="res://fonts/m5x7 Daniel Linssen.ttf" id="31_cmbq5"]
 [ext_resource type="PackedScene" uid="uid://c8loqg744bs1h" path="res://scenes/dust.tscn" id="31_lr28l"]
 
@@ -186,35 +184,6 @@ tracks/2/keys = {
 }, {
 "args": [],
 "method": &"remove_effect"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_yb8n2"]
-resource_name = "Cast"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Marker2D/Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [99, 100, 101, 102, 103, 104]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"spawn_fireball"
 }]
 }
 
@@ -1461,75 +1430,6 @@ tracks/6/keys = {
 "values": [SubResource("RectangleShape2D_pjtuu")]
 }
 
-[sub_resource type="Animation" id="Animation_kwj5v"]
-resource_name = "StrongAttack"
-length = 0.75
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Marker2D/Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [77, 78, 79, 80, 81, 82, 83]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Marker2D/AttackBox/CollisionShape2D:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2(28, -17), Vector2(32, -17), Vector2(27, -17)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Marker2D/AttackBox/CollisionShape2D:shape:size")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2(12, 26), Vector2(20, 26), Vector2(12, 26)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Marker2D/AttackBox/CollisionShape2D:disabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
-tracks/4/type = "method"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("FiniteStateMachine/AttackState")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"values": [{
-"args": [],
-"method": &"apply_effect"
-}, {
-"args": [],
-"method": &"remove_effect"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_fjkal"]
 resource_name = "Teleport"
 length = 3.1
@@ -1652,7 +1552,6 @@ tracks/5/keys = {
 _data = {
 "Attack": SubResource("Animation_woc4l"),
 "Attack2": SubResource("Animation_thop3"),
-"Cast": SubResource("Animation_yb8n2"),
 "ComboAttack": SubResource("Animation_0rx5f"),
 "Crouch": SubResource("Animation_32bjq"),
 "CrouchSingleFrame": SubResource("Animation_t2gbl"),
@@ -1670,7 +1569,6 @@ _data = {
 "Sit": SubResource("Animation_dypso"),
 "Slide": SubResource("Animation_bq45w"),
 "StandUp": SubResource("Animation_hveib"),
-"StrongAttack": SubResource("Animation_kwj5v"),
 "Teleport": SubResource("Animation_fjkal"),
 "WallSlide": SubResource("Animation_72yvd")
 }
@@ -1678,7 +1576,7 @@ _data = {
 [sub_resource type="LabelSettings" id="LabelSettings_1aeww"]
 font = ExtResource("31_cmbq5")
 
-[node name="Forresta" type="CharacterBody2D"]
+[node name="Sciquest" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 8
 collision_mask = 289
@@ -1790,30 +1688,30 @@ pivot = NodePath("../Marker2D")
 
 [node name="IdleState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("10_61x1q")
-accepted_commands = Array[int]([0, 1, 2, 3, 4, 7, 6, 8])
+accepted_commands = Array[int]([0, 1, 2, 3, 5])
 
 [node name="RunState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("11_6sfih")
-accepted_commands = Array[int]([0, 5, 1, 2, 3, 4, 5, 6, 7, 8])
+accepted_commands = Array[int]([0, 1, 2, 3, 4, 5])
 
 [node name="JumpState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("12_tv1gr")
-accepted_commands = Array[int]([0, 4, 8])
+accepted_commands = Array[int]([0, 3, 5])
 
 [node name="FallState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("13_qu1fs")
-accepted_commands = Array[int]([0, 4, 8])
+accepted_commands = Array[int]([0, 3, 5])
 
 [node name="GroundSlideState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("14_rskcl")
 
 [node name="CrouchState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("15_rf2ip")
-accepted_commands = Array[int]([8])
+accepted_commands = Array[int]([5])
 
 [node name="SitState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("16_qyjxr")
-accepted_commands = Array[int]([8])
+accepted_commands = Array[int]([5])
 
 [node name="StandUpState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("17_07mpk")
@@ -1821,7 +1719,7 @@ script = ExtResource("17_07mpk")
 [node name="AttackState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("18_onnux")
 colors = Array[Color]([Color(1, 0.211765, 0.160784, 0.784314), Color(0, 0, 0, 0.784314), Color(0, 1, 0, 0.784314), Color(0, 0, 1, 0.784314), Color(0.811765, 0.254902, 0.756863, 0.784314)])
-accepted_commands = Array[int]([1, 8])
+accepted_commands = Array[int]([1, 5])
 
 [node name="DieState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("19_xeb6x")
@@ -1831,11 +1729,11 @@ script = ExtResource("20_52vfi")
 
 [node name="EdgeHangState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("21_7proh")
-accepted_commands = Array[int]([0, 3, 8])
+accepted_commands = Array[int]([0, 2, 5])
 
 [node name="WallSlideState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("22_sdi41")
-accepted_commands = Array[int]([0, 8])
+accepted_commands = Array[int]([0, 5])
 
 [node name="HurtState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("23_f5gew")
@@ -1851,14 +1749,6 @@ script = ExtResource("26_rgjjj")
 
 [node name="KnockBackState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("27_aukvd")
-
-[node name="BlockState" type="Node" parent="FiniteStateMachine"]
-script = ExtResource("28_5i5ts")
-accepted_commands = Array[int]([8])
-
-[node name="CastState" type="Node" parent="FiniteStateMachine"]
-script = ExtResource("29_xh1qo")
-accepted_commands = Array[int]([8])
 
 [node name="DrownState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("30_k31cb")

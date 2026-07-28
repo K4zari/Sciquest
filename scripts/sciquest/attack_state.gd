@@ -6,26 +6,19 @@ signal spawn_fireball()
 @export var colors : Array[Color]
 
 func enter_state(_prev_state : State):
+	AudioManager.play_sfx("attack")
 	actor.attack_buffer = false
 	var material = actor.sprite.get_material()
 	material.set_shader_parameter("is_attacking", true)
 	actor.velocity.x = 0
-	if actor.strong_attack:
-		actor.Stats.current_stamina -= 3.0
-		animator.play("StrongAttack", -1, 1.05)
-		actor.Stats.current_damage *= 2.0
+	actor.combo_timer.stop()
+	actor.attacks_performed += 1
+	if actor.attacks_performed < 3:
+		animator.play("Attack", -1, 1.6)
 	else:
-		actor.combo_timer.stop()
-		actor.attacks_performed += 1
-		if actor.attacks_performed < 3:
-			animator.play("Attack", -1, 1.6)
-		else:
-			animator.play("ComboAttack", -1, 1.6)
+		animator.play("ComboAttack", -1, 1.6)
 
 func exit_state():
-	if actor.strong_attack:
-		actor.Stats.current_damage *= 0.5
-	actor.strong_attack = false
 	var material = actor.sprite.get_material()
 	material.set_shader_parameter("is_attacking", false)
 
@@ -50,10 +43,10 @@ func remove_effect():
 	var material = actor.sprite.material
 	material.set_shader_parameter("target_color", Color.WHITE)	
 
-func execute_command(command : Forresta.Commands):
-	if not accepted_commands.has(command) and command != Forresta.Commands.RELEASE:
+func execute_command(command : Sciquest.Commands):
+	if not accepted_commands.has(command) and command != Sciquest.Commands.RELEASE:
 		return false
-	if command == Forresta.Commands.ATTACK:
+	if command == Sciquest.Commands.ATTACK:
 		actor.attack_buffer = true
 		actor.attack_buffer_timer.start()
 	return true

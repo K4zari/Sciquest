@@ -28,5 +28,5 @@ offset_left = -32.0
 offset_top = -42.0
 offset_right = 32.0
 offset_bottom = -28.0
-horizontal_alignment = 1
 text = "Solar"
+horizontal_alignment = 1

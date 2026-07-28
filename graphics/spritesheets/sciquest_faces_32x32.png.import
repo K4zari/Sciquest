@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dspawu4h1mda5"
-path="res://.godot/imported/forresta_faces_32x32.png-0dff54bcb0d7b6ba08def77d53b120dd.ctex"
+path="res://.godot/imported/sciquest_faces_32x32.png-3b7162f4a8823ac7dea2447a09571796.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/spritesheets/forresta_faces_32x32.png"
-dest_files=["res://.godot/imported/forresta_faces_32x32.png-0dff54bcb0d7b6ba08def77d53b120dd.ctex"]
+source_file="res://graphics/spritesheets/sciquest_faces_32x32.png"
+dest_files=["res://.godot/imported/sciquest_faces_32x32.png-3b7162f4a8823ac7dea2447a09571796.ctex"]
 
 [params]
 

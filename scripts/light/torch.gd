@@ -47,6 +47,13 @@ func set_emitting(on : bool) -> void:
 		beam.enabled = on
 	_apply_lit_visual(on)
 
+## Lever hooks so a torch (e.g. a "Sun") can be switched on by pulling a lever.
+func _on_lever_activated() -> void:
+	set_emitting(true)
+
+func _on_lever_deactivated() -> void:
+	set_emitting(false)
+
 func _apply_lit_visual(lit : bool) -> void:
 	if sprite is CanvasItem:
 		(sprite as CanvasItem).modulate = Color(1.0, 1.0, 1.0, 1.0) if lit else Color(0.75, 0.75, 0.85, 1.0)

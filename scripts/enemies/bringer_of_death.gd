@@ -17,7 +17,7 @@ var spell_scene = preload("res://scenes/spell.tscn")
 signal projectile_fired(projectile : Node2D)
 
 var can_cast_spell : bool = true
-var target : Forresta = null
+var target : Sciquest = null
 var target_lost : bool = false
 var player_too_close : bool = false
 
@@ -28,7 +28,7 @@ func _on_cast_spell_timer_timeout():
 
 func can_see_player() -> bool:
 	for raycast in eyes.get_children():
-		if raycast.is_colliding() and raycast.get_collider() is Forresta:
+		if raycast.is_colliding() and raycast.get_collider() is Sciquest:
 			return true
 	return false
 
@@ -37,6 +37,8 @@ func cast_spell():
 		return
 	var spell = spell_scene.instantiate()
 	spell.global_position = target.global_position
+	spell.current_damage = current_damage
+	spell.affinity = affinity
 	projectile_fired.emit(spell)
 
 

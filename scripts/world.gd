@@ -2,7 +2,7 @@ extends Node2D
 
 @export var levels : Array[String]
 
-var player_scene = preload("res://scenes/forresta_2.tscn")
+var player_scene = preload("res://scenes/sciquest_2.tscn")
 
 var tombstone_locations : Array[Vector2] = []
 

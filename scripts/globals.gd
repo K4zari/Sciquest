@@ -1,6 +1,6 @@
 extends Node
 
-var player : Forresta
+var player : Sciquest
 
 enum Affinities {
 	FIRE,
@@ -189,11 +189,37 @@ var player_inventory : Inventory
 
 var current_topic : int = 4
 var selected_character : String = "male"
+
+## "en" or "ms" (Bahasa Melayu). Switching re-points TranslationServer's locale
+## so every tr() call across the game (menus, HUD, battles, info boards, quiz
+## questions) immediately renders in the chosen language.
+var language : String = "en"
+
+func set_language(lang_code : String) -> void:
+	language = lang_code
+	TranslationServer.set_locale(lang_code)
+
+func _ready():
+	var ms := Translation.new()
+	ms.locale = "ms"
+	var _msgs := MalayStrings.get_messages()
+	for key in _msgs:
+		ms.add_message(key, _msgs[key])
+	TranslationServer.add_translation(ms)
 const PLAYER_SHEET_PATHS : Dictionary = {
-	"male": "res://graphics/spritesheets/forresta_ahmad.png",
-	"female": "res://graphics/spritesheets/forresta_aishah.png",
+	"male": "res://graphics/spritesheets/sciquest_ahmad.png",
+	"female": "res://graphics/spritesheets/sciquest_aishah.png",
 }
-const PLAYER_SHEET_FALLBACK : String = "res://graphics/spritesheets/forresta_spritesheet.png"
+const PLAYER_SHEET_FALLBACK : String = "res://graphics/spritesheets/sciquest_spritesheet.png"
+
+# HUD status-portrait face sheets (28x28 frames). Aishah uses the original auburn
+# face sheet; Ahmad uses the brown-hair recolor so the healthbar portrait matches
+# the chosen character.
+const PLAYER_FACE_PATHS : Dictionary = {
+	"male": "res://graphics/spritesheets/sciquest_faces_32x32_ahmad.png",
+	"female": "res://graphics/spritesheets/sciquest_faces_32x32.png",
+}
+const PLAYER_FACE_FALLBACK : String = "res://graphics/spritesheets/sciquest_faces_32x32.png"
 
 func get_player_sheet_path() -> String:
 	var path : String = PLAYER_SHEET_PATHS.get(selected_character, PLAYER_SHEET_FALLBACK)
@@ -201,8 +227,43 @@ func get_player_sheet_path() -> String:
 		return PLAYER_SHEET_FALLBACK
 	return path
 
+func get_player_face_path() -> String:
+	var path : String = PLAYER_FACE_PATHS.get(selected_character, PLAYER_FACE_FALLBACK)
+	if not ResourceLoader.exists(path):
+		return PLAYER_FACE_FALLBACK
+	return path
+
 var completed_topics : Array[int] = []
 var level_best_stars : Dictionary = {}  # topic_id (int) -> stars (1..3)
+
+# Every topic except the tutorial (0). Clearing all of these triggers the
+# one-time congratulations finale.
+const REQUIRED_TOPIC_IDS : Array[int] = [4, 5, 7, 9, 10]
+var all_topics_celebrated : bool = false
+
+func all_required_topics_complete() -> bool:
+	for id in REQUIRED_TOPIC_IDS:
+		if not completed_topics.has(id):
+			return false
+	return true
+
+# ── Energy inventory (Topic 7 puzzle) ────────────────────────────────────────
+# Collected FuelOrb.Source values. Filled by grabbing orbs from chests, drained
+# by feeding the correct orb to a generator. Cleared on each fresh level load.
+var energy_orbs : Array[int] = []
+
+func add_energy(source : int) -> void:
+	if not energy_orbs.has(source):
+		energy_orbs.append(source)
+
+func has_energy(source : int) -> bool:
+	return energy_orbs.has(source)
+
+func remove_energy(source : int) -> void:
+	energy_orbs.erase(source)
+
+func clear_energy() -> void:
+	energy_orbs.clear()
 
 func record_stars(topic_id : int, stars : int) -> bool:
 	var prev : int = level_best_stars.get(topic_id, 0)
@@ -216,4 +277,4 @@ func add_tombstone(tombstone : Vector2):
 	if tombstone_locations.size() > 10:
 		tombstone_locations.pop_front()
 
-signal player_ready(_player : Forresta)
+signal player_ready(_player : Sciquest)

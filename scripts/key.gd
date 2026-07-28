@@ -10,6 +10,6 @@ func _ready():
 
 
 
-func _on_body_entered(body : Forresta):
+func _on_body_entered(body : Sciquest):
 	body.possessed_keys[key_type] += 1
 	queue_free()

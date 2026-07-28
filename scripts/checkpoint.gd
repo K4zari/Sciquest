@@ -26,6 +26,7 @@ func _on_body_exited(_body):
 	
 func interact():
 	activated = true
+	AudioManager.play_sfx("checkpoint")
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Sprite2D.region_rect.position.x = 23
 	checkpoint_reached.emit(global_position)

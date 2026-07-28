@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bbi4pd88ra6hm"
-path="res://.godot/imported/forresta_ghost.png-9e40f1591bb88119fdd60824924fcc2e.ctex"
+path="res://.godot/imported/sciquest_ghost.png-a5f2a31e7c13028d67a165cec1572785.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://graphics/spritesheets/forresta_ghost.png"
-dest_files=["res://.godot/imported/forresta_ghost.png-9e40f1591bb88119fdd60824924fcc2e.ctex"]
+source_file="res://graphics/spritesheets/sciquest_ghost.png"
+dest_files=["res://.godot/imported/sciquest_ghost.png-a5f2a31e7c13028d67a165cec1572785.ctex"]
 
 [params]
 

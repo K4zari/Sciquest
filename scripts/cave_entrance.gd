@@ -28,7 +28,7 @@ func _ready():
 		$CollisionShape2D.position.x = 0.5 * size * Globals.TILE_SIZE
 		$CollisionShape2D.position.y = 0
 
-func _on_body_exited(body : Forresta):
+func _on_body_exited(body : Sciquest):
 	if direction == Location.LEFT:
 		if body.global_position.x > global_position.x:
 			cave_entered.emit(max_depth)

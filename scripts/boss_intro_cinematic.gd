@@ -28,6 +28,10 @@ func play(target : Node2D, boss_name : String):
 	if target == null:
 		cinematic_finished.emit()
 		return
+	# Kick off the boss theme the moment the cinematic zoom begins so the music
+	# swells with the camera push, not when the quiz UI later appears. play_music()
+	# guards against re-triggering, so battle_manager's later call is a no-op.
+	AudioManager.play_music("boss")
 	visible = true
 	boss_name_label.text = (
 		"[center][font_size=32]"

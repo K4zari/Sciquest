@@ -1,7 +1,7 @@
 extends Node
 class_name State
 
-@export var accepted_commands : Array[Forresta.Commands]
+@export var accepted_commands : Array[Sciquest.Commands]
 
 var previous_state : State
 var is_current : bool = false
@@ -29,7 +29,7 @@ func physics_update(_delta : float) -> void:
 func animation_finished() -> void:
 	pass
 
-func execute_command(command : Forresta.Commands) -> bool:
-	if command == Forresta.Commands.RELEASE:
+func execute_command(command : Sciquest.Commands) -> bool:
+	if command == Sciquest.Commands.RELEASE:
 		return true
 	return false

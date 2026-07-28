@@ -21,6 +21,8 @@ var command_prefix = "MCP_COMMAND:"
 var response_prefix = "MCP_RESPONSE:"
 
 func _ready():
+	# Keep polling and screenshots alive while the game is paused (pause menu testing)
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	print(response_prefix + '{"type":"ready","bridge_version":"1.0"}')
 	print("Godot MCP Bridge initialized")
 	if AUTO_SCREENSHOT:
@@ -129,11 +131,27 @@ func _dump_state() -> void:
 		"player_pos": null,
 		"interactables": [],
 		"crystals": [],
+		"enemies": [],
 		"current_level": null,
 		"interactable_in_range": null,
 	}
 	if player and is_instance_valid(player):
 		info["player_pos"] = [player.global_position.x, player.global_position.y]
+	for e in get_tree().get_nodes_in_group("Enemies"):
+		var estate := ""
+		var sm = e.get_node_or_null("FiniteStateMachine")
+		if sm and "current_state" in sm and sm.current_state != null:
+			estate = sm.current_state.name
+		info["enemies"].append({
+			"name": e.name,
+			"pos": [round(e.global_position.x), round(e.global_position.y)],
+			"dead": e.is_dead if "is_dead" in e else null,
+			"in_battle": e.in_battle if "in_battle" in e else null,
+			"state": estate,
+			"vel": [round(e.velocity.x), round(e.velocity.y)] if "velocity" in e else null,
+			"in_wind": e.in_wind if "in_wind" in e else null,
+			"wind_force": [round(e.wind_force.x), round(e.wind_force.y)] if "wind_force" in e else null,
+		})
 	for n in get_tree().get_nodes_in_group("Interactables"):
 		var entry := {
 			"name": n.name,
@@ -203,6 +221,59 @@ func _force_interact(node_name: String) -> void:
 				print(response_prefix + JSON.stringify({"type": "interact", "name": node_name, "ok": true}))
 				return
 	print(response_prefix + JSON.stringify({"type": "interact", "name": node_name, "ok": false}))
+
+func _find_enemy(node_name: String) -> Node:
+	for e in get_tree().get_nodes_in_group("Enemies"):
+		if e.name == node_name:
+			return e
+	return null
+
+func _force_battle(node_name: String) -> void:
+	var e := _find_enemy(node_name)
+	if e == null:
+		print(response_prefix + JSON.stringify({"type": "battle", "name": node_name, "ok": false, "reason": "not_found"}))
+		return
+	if "in_battle" in e:
+		e.in_battle = true
+	BattleManager.start_battle(e, Globals.current_topic)
+	print(response_prefix + JSON.stringify({"type": "battle", "name": node_name, "ok": true, "topic": Globals.current_topic}))
+
+func _force_kill(node_name: String) -> void:
+	var e := _find_enemy(node_name)
+	if e == null:
+		print(response_prefix + JSON.stringify({"type": "kill", "name": node_name, "ok": false, "reason": "not_found"}))
+		return
+	var sm = e.get_node_or_null("FiniteStateMachine")
+	if sm and sm.has_method("transition"):
+		sm.transition("DieState")
+		print(response_prefix + JSON.stringify({"type": "kill", "name": node_name, "ok": true}))
+	else:
+		print(response_prefix + JSON.stringify({"type": "kill", "name": node_name, "ok": false, "reason": "no_fsm"}))
+
+func _force_cast(node_name: String) -> void:
+	var e := _find_enemy(node_name)
+	if e == null:
+		print(response_prefix + JSON.stringify({"type": "cast", "name": node_name, "ok": false, "reason": "not_found"}))
+		return
+	if "target" in e:
+		e.target = Globals.player
+	if e.has_method("cast_spell"):
+		e.cast_spell()
+		print(response_prefix + JSON.stringify({"type": "cast", "name": node_name, "ok": true}))
+	else:
+		print(response_prefix + JSON.stringify({"type": "cast", "name": node_name, "ok": false, "reason": "no_method"}))
+
+func _tap_joy_button(button_index: int, hold_seconds: float) -> void:
+	var down := InputEventJoypadButton.new()
+	down.button_index = button_index
+	down.pressed = true
+	Input.parse_input_event(down)
+	await get_tree().create_timer(hold_seconds).timeout
+	var up := InputEventJoypadButton.new()
+	up.button_index = button_index
+	up.pressed = false
+	Input.parse_input_event(up)
+	print(response_prefix + JSON.stringify({"type": "joy", "button": button_index}))
 
 func _tap_key(key_name: String, hold_seconds: float) -> void:
 	var keycode := OS.find_keycode_from_string(key_name.to_upper())
@@ -291,16 +362,48 @@ func _run_command_line(line: String) -> void:
 				await get_tree().create_timer(float(parts[1])).timeout
 		"shot":
 			_save_screenshot_to_disk()
+		"tp":
+			# tp <x> <y> — teleport the player (dev/testing only)
+			if parts.size() >= 3 and Globals.player:
+				Globals.player.global_position = Vector2(float(parts[1]), float(parts[2]))
+				print(response_prefix + JSON.stringify({"type": "tp", "x": float(parts[1]), "y": float(parts[2])}))
 		"dbg":
 			_dump_state()
 		"interact":
 			# interact <NodeName> — find a node by name and call its interact()
 			if parts.size() >= 2:
 				_force_interact(parts[1])
+		"battle":
+			# battle <EnemyName> — force-start an MCQ battle with a named enemy
+			if parts.size() >= 2:
+				_force_battle(parts[1])
+		"kill":
+			# kill <EnemyName> — transition a named enemy straight to DieState
+			if parts.size() >= 2:
+				_force_kill(parts[1])
+		"forcecast":
+			# forcecast <EnemyName> — make a caster enemy cast its spell at the player
+			if parts.size() >= 2:
+				_force_cast(parts[1])
 		"btn":
 			# btn <substring of button text> — emit "pressed" on the first matching Button
 			if parts.size() >= 2:
 				_press_button_by_text(line.substr(line.find(" ") + 1).strip_edges())
+		"click":
+			# click <x> <y> — simulate a left mouse click at screen coordinates
+			if parts.size() >= 3:
+				await simulate_click(int(parts[1]), int(parts[2]))
+		"focusinfo":
+			# focusinfo — report which Control currently holds keyboard/UI focus
+			var owner := get_viewport().gui_get_focus_owner()
+			print(response_prefix + JSON.stringify({"type": "focus", "owner": str(owner.get_path()) if owner else null}))
+		"joy":
+			# joy <button_index> [hold_seconds] — inject a real InputEventJoypadButton
+			if parts.size() >= 2:
+				var jhold := 0.05
+				if parts.size() >= 3:
+					jhold = float(parts[2])
+				_tap_joy_button(int(parts[1]), jhold)
 		"key":
 			# key <KEYCODE_NAME> [hold_seconds]   e.g. "key E 0.05"
 			if parts.size() >= 2:

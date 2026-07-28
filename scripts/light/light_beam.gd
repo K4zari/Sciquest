@@ -14,6 +14,7 @@ const NUDGE := 1.0
 var _line_pool : Array[Line2D] = []
 var _glow_pool : Array[Line2D] = []
 var _last_hits : Array = []
+var _last_hit_intensities : Dictionary = {}
 
 func _physics_process(_delta : float):
 	if enabled:
@@ -21,6 +22,7 @@ func _physics_process(_delta : float):
 	else:
 		_hide_all_segments()
 		_last_hits.clear()
+		_last_hit_intensities.clear()
 
 func _update_beam() -> void:
 	var space := get_world_2d().direct_space_state
@@ -29,6 +31,7 @@ func _update_beam() -> void:
 	var current_intensity : float = intensity
 	var exclude : Array = []
 	var new_hits : Array = []
+	var new_hit_intensities : Dictionary = {}
 	var segments : Array = []
 
 	for bounce in MAX_BOUNCES:
@@ -57,6 +60,7 @@ func _update_beam() -> void:
 		segments.append({"start": origin, "end": hit_pos, "intensity": current_intensity})
 
 		var stop : bool = _handle_hit(collider, hit_pos, hit_normal, current_intensity, new_hits, exclude)
+		new_hit_intensities[collider] = current_intensity
 		if stop:
 			break
 
@@ -79,8 +83,9 @@ func _update_beam() -> void:
 			break
 
 	_render_segments(segments)
-	_emit_hit_changes(new_hits)
+	_emit_hit_changes(new_hits, new_hit_intensities)
 	_last_hits = new_hits
+	_last_hit_intensities = new_hit_intensities
 
 func _render_segments(segments : Array) -> void:
 	for i in segments.size():
@@ -148,7 +153,8 @@ func _handle_hit(collider, _hit_pos : Vector2, _hit_normal : Vector2, current_in
 	new_hits.append(collider)
 	return true
 
-func _emit_hit_changes(new_hits : Array) -> void:
+func _emit_hit_changes(new_hits : Array, intensities : Dictionary) -> void:
 	for h in new_hits:
+		var hit_intensity : float = intensities.get(h, intensity)
 		if h not in _last_hits:
-			EventBus.beam_hit.emit(h, intensity)
+			EventBus.beam_hit.emit(h, hit_intensity)

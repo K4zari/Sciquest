@@ -4,6 +4,7 @@ class_name DieState
 var drown_time_limit : float
 
 func enter_state(_prev_state : State) -> void:
+	AudioManager.play_sfx("player_dies")
 	actor.velocity.x = 0.0
 	actor.is_dead = true
 	if not _prev_state is DrownState:

@@ -15,7 +15,7 @@ func activate():
 	show()
 	$CollisionShape2D.set_deferred("disabled", false)
 
-func _on_body_entered(_body : Forresta):
+func _on_body_entered(_body : Sciquest):
 	if is_level_end:
 		if not level_node:
 			return

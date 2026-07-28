@@ -4,6 +4,7 @@ extends Node2D
 const USE_PROCEDURAL_CAVE := false
 
 const TOPIC_LEVEL_SCENES := {
+	0: "res://scenes/tutorial.tscn",            # Tutorial — Training Grounds
 	4: "res://scenes/level_4_plants.tscn",      # Forest
 	5: "res://scenes/level_5_light_full.tscn",  # Cave / Crystal
 	7: "res://scenes/level_7_energy_sandbox.tscn", # Volcano / Industrial (SANDBOX — gameplay testing)
@@ -19,21 +20,43 @@ const FALLBACK_LEVEL_SCENE := "res://scenes/level_1.tscn"
 
 var _current_level : Node = null
 var _current_menu : Control = null
+var _pause_menu : CanvasLayer = null
 
 var _main_menu_scene := preload("res://scenes/main_menu.tscn")
 var _char_select_scene := preload("res://scenes/character_select.tscn")
 var _level_select_scene := preload("res://scenes/level_select.tscn")
-var _player_scene := preload("res://scenes/forresta_2.tscn")
+var _settings_script := preload("res://scripts/settings_menu.gd")
+var _player_scene := preload("res://scenes/sciquest_2.tscn")
+
+var _transitioning := false
 
 func _ready():
 	hud.visible = false
+	_pause_menu = preload("res://scripts/pause_menu.gd").new()
+	add_child(_pause_menu)
+	_pause_menu.resume_pressed.connect(func(): _pause_menu.hide_menu())
+	_pause_menu.respawn_pressed.connect(_on_pause_respawn)
+	_pause_menu.level_select_pressed.connect(_on_pause_level_select)
+	_pause_menu.main_menu_pressed.connect(_on_pause_main_menu)
 	_show_main_menu()
 
 func _show_main_menu():
 	_swap_menu(_main_menu_scene.instantiate())
 	_current_menu.play_pressed.connect(_show_character_select)
+	_current_menu.settings_pressed.connect(_show_settings)
+
+func _show_settings():
+	_swap_menu(_settings_script.new())
+	_current_menu.back_pressed.connect(_show_main_menu)
 
 func _show_character_select():
+	if _transitioning:
+		return
+	# Main menu plays a short exit animation before the swap
+	if _current_menu and _current_menu.has_method("play_exit"):
+		_transitioning = true
+		await _current_menu.play_exit()
+		_transitioning = false
 	_swap_menu(_char_select_scene.instantiate())
 	_current_menu.character_chosen.connect(_show_level_select)
 	_current_menu.back_pressed.connect(_show_main_menu)
@@ -65,6 +88,7 @@ func _start_level(topic_id: int):
 	call_deferred("add_child", level)
 
 	hud.visible = true
+	_pause_menu.level_active = true
 	EventBus.level_end_reached.connect(_on_level_completed, CONNECT_ONE_SHOT)
 
 func _on_level_completed(level):
@@ -79,13 +103,31 @@ func _on_level_completed(level):
 	if not Globals.completed_topics.has(Globals.current_topic):
 		Globals.completed_topics.append(Globals.current_topic)
 	_cleanup_level()
+	# Grand finale the first time every non-tutorial topic has been cleared.
+	if Globals.all_required_topics_complete() and not Globals.all_topics_celebrated:
+		Globals.all_topics_celebrated = true
+		await _show_congratulations()
 	_show_level_select()
+
+func _show_congratulations():
+	var screen : CongratulationsScreen = preload("res://scripts/congratulations_screen.gd").new()
+	add_child(screen)
+	await screen.continue_pressed
+	AudioManager.stop_music()
+	screen.queue_free()
 
 func _on_game_over(_level):
 	_cleanup_level()
 	_show_level_select()
 
 func _cleanup_level():
+	# A battle in progress owns a quiz UI that lives on the BattleManager autoload,
+	# not the level — tear it down too, or it lingers over the main menu.
+	BattleManager.abort_battle()
+	AudioManager.stop_music()
+	if _pause_menu:
+		_pause_menu.level_active = false
+		_pause_menu.hide_menu()
 	hud.visible = false
 	if _current_level:
 		_current_level.queue_free()
@@ -93,6 +135,21 @@ func _cleanup_level():
 	Globals.player_data = null
 	Globals.player_inventory = null
 	Globals.player = null
+
+func _on_pause_respawn():
+	# Unpause first so the respawn fade/timers run, then warp the player back
+	# to the last checkpoint to free them from being stuck or fallen off-map.
+	_pause_menu.hide_menu()
+	if _current_level and _current_level.has_method("respawn_player"):
+		_current_level.respawn_player()
+
+func _on_pause_level_select():
+	_cleanup_level()
+	_show_level_select()
+
+func _on_pause_main_menu():
+	_cleanup_level()
+	_show_main_menu()
 
 func _swap_menu(new_menu: Control):
 	if _current_menu:
@@ -105,10 +162,7 @@ func _input(event):
 		return
 	match event.keycode:
 		KEY_ESCAPE:
-			if _current_level:
-				_cleanup_level()
-				_show_level_select()
-			else:
+			if not _current_level:
 				get_tree().quit()
 		KEY_I:
 			if _current_level:

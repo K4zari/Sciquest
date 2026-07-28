@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://8y76d42b6uht"]
 
-[ext_resource type="Script" path="res://scripts/forresta/sword_fireball.gd" id="1_mqmog"]
+[ext_resource type="Script" path="res://scripts/sciquest/sword_fireball.gd" id="1_mqmog"]
 [ext_resource type="Texture2D" uid="uid://bp7q8bjvfsmy1" path="res://graphics/fireball.png" id="2_u8khr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lbvgp"]

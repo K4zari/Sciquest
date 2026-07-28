@@ -88,7 +88,7 @@ func dim():
 	tw.tween_property(self, "base_energy_level", 0.3, 1.0)
 	tw.tween_property(light, "texture_scale", 0.5, 1.0)
 
-func _on_area_2d_body_entered(body : Forresta):
+func _on_area_2d_body_entered(body : Sciquest):
 		if mode == Mode.FOLLOW:
 			if state == MoveMode.IDLE:
 				follow_target = body.follow_point

@@ -6,9 +6,23 @@ extends MarginContainer
 @onready var effect_frame : TextureProgressBar = $EffectFrame
 
 func _ready():
+	_apply_character_face()
 	anim_sprite.play("default")
 	timer.wait_time = randf_range(1.5, 2.0)
 	timer.start()
+
+# Point every portrait frame at the chosen character's face sheet so the healthbar
+# portrait matches the selected hero (Globals.selected_character).
+func _apply_character_face() -> void:
+	var tex : Texture2D = load(Globals.get_player_face_path())
+	if tex == null:
+		return
+	var frames : SpriteFrames = anim_sprite.sprite_frames
+	for anim_name in frames.get_animation_names():
+		for i in frames.get_frame_count(anim_name):
+			var atlas : Texture2D = frames.get_frame_texture(anim_name, i)
+			if atlas is AtlasTexture:
+				atlas.atlas = tex
 
 func set_effect_color(color : Color):
 	effect_frame.tint_progress = color

@@ -25,6 +25,9 @@ func physics_update(delta) -> void:
 
 		
 	else:
+		# Only thud on a meaningful drop, not every tiny step-down.
+		if int(actor.position.y) - initial_height > 12:
+			AudioManager.play_sfx("land")
 		if actor.velocity.x != 0:
 			transition.emit("RunState")
 		else:
@@ -52,19 +55,19 @@ func calculate_fall_damage():
 		var excess_height = height_diff - actor.fall_resistance
 		actor.take_fall_damage(floor(excess_height / Globals.TILE_SIZE))
 	
-func execute_command(command : Forresta.Commands):
-	if not accepted_commands.has(command) and command != Forresta.Commands.RELEASE:
+func execute_command(command : Sciquest.Commands):
+	if not accepted_commands.has(command) and command != Sciquest.Commands.RELEASE:
 		return false
-	if actor.can_climb and command == Forresta.Commands.JUMP:
+	if actor.can_climb and command == Sciquest.Commands.JUMP:
 		transition.emit("LadderClimbState")
 		
-	elif command == Forresta.Commands.DASH:
+	elif command == Sciquest.Commands.DASH:
 		if actor.dash():
 			transition.emit("DashState")
 			return
 		else:
 			actor.no_stamina.emit()
 	
-	elif command == Forresta.Commands.JUMP:
+	elif command == Sciquest.Commands.JUMP:
 		actor.jump_buffer = true
 		actor.jump_buffer_timer.start()

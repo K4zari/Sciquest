@@ -15,8 +15,15 @@ signal died
 @export var teleport_guarded : Area2D
 @export var skeleton_scene : PackedScene
 
-const TOTAL_SUMMONS : int = 5
+const TOTAL_SUMMONS : int = 3
 const SUMMON_OFFSET : Vector2 = Vector2(-10, 0)
+
+## Flees left, away from the player, while it still has skeletons left to summon.
+const TELEPORT_TRIGGER_RANGE : float = 48.0
+const TELEPORT_AWAY_DISTANCE : float = 120.0
+const TELEPORT_COOLDOWN : float = 1.2
+
+var _teleport_cooldown : float = 0.0
 
 @onready var state_machine : FiniteStateMachine = $FiniteStateMachine
 @onready var sprite : Sprite2D = $Marker2D/Sprite2D
@@ -30,6 +37,10 @@ var in_battle : bool = false
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var potential_targets : Array = []
+
+## Set once every summoned skeleton is defeated and the barrier is gone — the
+## next hit from the player kills the Necromancer outright (no quiz needed).
+var is_vulnerable_to_final_blow : bool = false
 
 var is_boss_fight_active : bool = false
 var _boss_fight_started : bool = false
@@ -45,6 +56,30 @@ func _ready():
 	hp = max_hp
 	add_to_group("Enemies")
 	EventBus.enemy_spawned.emit(self)
+
+func _process(delta: float) -> void:
+	if _teleport_cooldown > 0.0:
+		_teleport_cooldown -= delta
+		return
+	if not is_boss_fight_active or is_dead or summons_spawned >= TOTAL_SUMMONS:
+		return
+	if not Globals.player:
+		return
+	if global_position.distance_to(Globals.player.global_position) < TELEPORT_TRIGGER_RANGE:
+		_teleport_away_from_player()
+
+## Vanishes and reappears further left so the player can't melee it down before
+## it finishes summoning its skeletons — keeps the quiz-driven summon fight intact.
+func _teleport_away_from_player() -> void:
+	_teleport_cooldown = TELEPORT_COOLDOWN
+	var destination : Vector2 = global_position + Vector2(-TELEPORT_AWAY_DISTANCE, 0)
+	var tw := create_tween()
+	tw.tween_property(pivot, "modulate:a", 0.0, 0.12)
+	tw.tween_callback(func ():
+		global_position = destination
+		turn_to_player()
+	)
+	tw.tween_property(pivot, "modulate:a", 1.0, 0.12)
 
 func _on_revive_timer_timeout():
 	if is_boss_fight_active:
@@ -112,10 +147,19 @@ func _on_summon_died(_summon):
 		in_battle = false
 		_remove_barrier()
 		_disable_player_block()
-		state_machine.transition("DieState")
+		is_vulnerable_to_final_blow = true
 		return
 	if summons_spawned < TOTAL_SUMMONS:
 		state_machine.transition("NecromancerCastState")
+
+## Final hit once all summons are cleared and the barrier is down — kills the
+## Necromancer outright through its normal death animation, no quiz required.
+func receive_final_blow():
+	if is_dead or not is_vulnerable_to_final_blow:
+		return
+	is_vulnerable_to_final_blow = false
+	hp = 0
+	state_machine.transition("DieState")
 
 func scan_for_targets() -> bool:
 	potential_targets = []

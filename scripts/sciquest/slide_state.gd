@@ -3,8 +3,9 @@ class_name GroundSlideState
 
 func enter_state(_prev_state : State):
 	actor.ceiling_detector.set_deferred("enabled", true)
-	actor.ground_detector.target_position.y = 16 
+	actor.ground_detector.target_position.y = 16
 	animator.play("Slide", -1, 0.9)
+	AudioManager.play_sfx("slide")
 
 func exit_state():
 		actor.ground_detector.target_position.y = 8

@@ -1,5 +1,5 @@
 extends CharacterBody2D
-class_name Forresta
+class_name Sciquest
 
 var label_scene = preload("res://scenes/info_label.tscn")
 var ghost_scene = preload("res://scenes/ghost.tscn")
@@ -68,7 +68,6 @@ var fall_resistance : int = 10 * Globals.TILE_SIZE
 var frozen : bool = true
 var is_dead : bool = false
 var is_teleporting : bool = false
-var strong_attack : bool = false
 var jump_buffer : bool = false
 var attack_buffer : bool = false
 var speed_boosted : bool = false
@@ -76,6 +75,12 @@ var speed_boosted : bool = false
 var will_o_wisp_following
 
 var attacks_performed : int = 0
+
+# Catapult / ballistic launch (e.g. the Topic 10 see-saw). When ballistic_launch is
+# true, KnockBackState fires the player along pending_launch and preserves horizontal
+# velocity (no damping) so the arc carries them over obstacles.
+var pending_launch : Vector2 = Vector2.ZERO
+var ballistic_launch : bool = false
 
 var can_climb : bool = false:
 	set(value):
@@ -96,19 +101,16 @@ const default_stats : Dictionary = {
 enum Commands {
 	JUMP,
 	ATTACK,
-	STRONG_ATTACK,
 	CROUCH,
 	DASH,
 	SLIDE,
-	CAST,
-	BLOCK,
 	RELEASE,
 	NULL
 }
 
 var command : Commands
 var last_command : Commands
-var last_event : int
+var last_action : String
 
 signal ghost_spawned(ghost : Sprite2D)
 signal soul_released(soul : Sprite2D)
@@ -128,22 +130,28 @@ signal died
 func _input(event):
 	if BattleManager.is_active() or frozen:
 		return
-	if event is InputEventKey:
-		if event.is_action_pressed("ui_up"):
+	if event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
+		var pressed_action : String = ""
+		if event.is_action_pressed("Jump"):
 			command = Commands.JUMP
+			pressed_action = "Jump"
 		if event.is_action_pressed("ui_down"):
 			command = Commands.CROUCH
+			pressed_action = "ui_down"
 		elif event.is_action_pressed("Attack"):
 			command = Commands.ATTACK
+			pressed_action = "Attack"
 		elif event.is_action_pressed("Dash"):
 			command = Commands.DASH
+			pressed_action = "Dash"
 		elif event.is_action_pressed("Slide"):
 			command = Commands.SLIDE
+			pressed_action = "Slide"
 
-		if not event.is_pressed():
-			if event.keycode == last_event:
+		if pressed_action.is_empty():
+			if last_action != "" and event.is_action_released(last_action):
 				command = Commands.RELEASE
-			else:
+			elif not _is_event_pressed(event):
 				command = Commands.NULL
 				last_command = Commands.NULL
 
@@ -151,8 +159,14 @@ func _input(event):
 			var success = state_machine.execute_command(command)
 			if success:
 				last_command = command
-				if event.is_pressed():
-					last_event = event.keycode
+				if not pressed_action.is_empty():
+					last_action = pressed_action
+
+
+func _is_event_pressed(event : InputEvent) -> bool:
+	if event is InputEventJoypadMotion:
+		return abs(event.axis_value) > 0.5
+	return event.is_pressed()
 
 					
 func _ready():
@@ -245,6 +259,16 @@ func take_damage(enemy : Node2D):
 			tw.tween_property(sprite, "modulate", Color.WHITE, 0.1)
 		else:
 			state_machine.transition("HurtState")
+
+
+## Fling the player along an arbitrary velocity (used by the see-saw catapult).
+## Routes through KnockBackState in ballistic mode so the FSM doesn't fight it.
+func catapult(launch_velocity : Vector2) -> void:
+	if is_dead:
+		return
+	pending_launch = launch_velocity
+	ballistic_launch = true
+	state_machine.transition("KnockBackState")
 
 
 func take_fall_damage(damage_taken : float):

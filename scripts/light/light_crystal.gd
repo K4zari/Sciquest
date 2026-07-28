@@ -13,6 +13,9 @@ class_name LightCrystal
 var _hit_time : float = 0.0
 var _was_hit_this_frame : bool = false
 var lit : bool = false
+## When true, the crystal stays energized without needing a light beam — used
+## when a lever powers it directly (e.g. the Topic 7 solar panel).
+var lever_powered : bool = false
 var _flash_tween : Tween
 var _breath_tween : Tween
 
@@ -24,11 +27,14 @@ func _ready():
 	_apply_lit_visual(false)
 
 func _physics_process(delta : float):
+	if lever_powered:
+		_was_hit_this_frame = true
 	if _was_hit_this_frame:
 		_hit_time += delta
 		if not lit and _hit_time >= hold_duration:
 			lit = true
 			_apply_lit_visual(true)
+			AudioManager.play_sfx("crystal_lit")
 			crystal_lit_signal.emit()
 			EventBus.crystal_lit.emit(self)
 	else:
@@ -45,6 +51,14 @@ func _physics_process(delta : float):
 func on_beam_hit(intensity : float) -> void:
 	if intensity >= required_intensity:
 		_was_hit_this_frame = true
+
+## Lever hooks (the lever calls these on its targets). Energizes the crystal
+## directly, no beam required.
+func _on_lever_activated() -> void:
+	lever_powered = true
+
+func _on_lever_deactivated() -> void:
+	lever_powered = false
 
 func _apply_lit_visual(is_lit : bool) -> void:
 	_kill_tweens()

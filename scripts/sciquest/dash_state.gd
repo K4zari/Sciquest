@@ -10,6 +10,7 @@ signal ghost_spawned(ghost : Sprite2D)
 
 func enter_state(prev_state : State) -> void:
 	animator.play("Dash", -1, 1.0)
+	AudioManager.play_sfx("dash")
 	tick = 0
 	previous_state = prev_state
 	actor.velocity.y = 0.0

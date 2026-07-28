@@ -7,6 +7,7 @@ var last_dir : int = 1
 
 
 func enter_state(_prev_state : State):
+	AudioManager.play_sfx("jump")
 	animator.play("Jump", -1, 1.0)
 	var dust = dust_scene.instantiate()
 	dust.global_position = actor.global_position
@@ -44,17 +45,17 @@ func physics_update(delta) -> void:
 	actor.move_and_slide()
 	
 
-func execute_command(command : Forresta.Commands):
-	if not accepted_commands.has(command) and command != Forresta.Commands.RELEASE:
+func execute_command(command : Sciquest.Commands):
+	if not accepted_commands.has(command) and command != Sciquest.Commands.RELEASE:
 		return false
 		
-	if command == Forresta.Commands.DASH:
+	if command == Sciquest.Commands.DASH:
 		if actor.dash():
 			transition.emit("DashState")
 			return
 		else:
 			actor.no_stamina.emit()
 	
-	elif actor.can_climb and command == Forresta.Commands.JUMP:
+	elif actor.can_climb and command == Sciquest.Commands.JUMP:
 		transition.emit("LadderClimbState")
 	return true

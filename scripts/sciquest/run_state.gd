@@ -51,44 +51,31 @@ func physics_update(delta):
 		actor.move_and_slide()
 
 
-func execute_command(command : Forresta.Commands):
-	if not accepted_commands.has(command) and command != Forresta.Commands.RELEASE:
+func execute_command(command : Sciquest.Commands):
+	if not accepted_commands.has(command) and command != Sciquest.Commands.RELEASE:
 		return false
-	if (command == Forresta.Commands.JUMP and (actor.is_on_floor() or actor.coyote_timer.time_left > 0.0)) or actor.jump_buffer:
+	if (command == Sciquest.Commands.JUMP and (actor.is_on_floor() or actor.coyote_timer.time_left > 0.0)) or actor.jump_buffer:
 		actor.velocity.y = actor.JUMP_VELOCITY
 		transition.emit("JumpState")
 		actor.coyote_timer.stop()
 
-	elif command == Forresta.Commands.SLIDE:
+	elif command == Sciquest.Commands.SLIDE:
 		transition.emit("GroundSlideState")
 		
-	elif command == Forresta.Commands.ATTACK or actor.attack_buffer:
+	elif command == Sciquest.Commands.ATTACK or actor.attack_buffer:
 		transition.emit("AttackState")
 		transition_done = true
-		
-	elif command == Forresta.Commands.STRONG_ATTACK and actor.Stats.current_stamina >= 3.0 and actor.is_on_floor():
-		actor.strong_attack = true
-		transition.emit("AttackState")
-		transition_done = true
-		
-	elif command == Forresta.Commands.CROUCH and actor.is_on_floor():
+
+	elif command == Sciquest.Commands.CROUCH and actor.is_on_floor():
 		transition.emit("CrouchState")
 		transition_done = true
 
-	elif command == Forresta.Commands.DASH:
+	elif command == Sciquest.Commands.DASH:
 		if actor.dash():
 			transition.emit("DashState")
 		else:
 			actor.no_stamina.emit()
-
-	elif command == Forresta.Commands.BLOCK and actor.Stats.current_stamina >= 1:
-		transition.emit("BlockState")
-		transition_done = true
-
-	elif command == Forresta.Commands.CAST:
-		transition.emit("CastState")
-		transition_done = true
-	return true 
+	return true
 	
 func _on_coyote_timer_timeout():
 	pass

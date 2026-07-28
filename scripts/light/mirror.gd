@@ -23,7 +23,8 @@ func _ready():
 	rotation_degrees = initial_angle_deg
 	if hint:
 		_hint_offset = Vector2(hint.offset_left, hint.offset_top)
-		hint.top_level = true
+		hint.set_as_top_level(true)
+		hint.pivot_offset = Vector2.ZERO
 		hint.rotation = 0.0
 		_update_hint_position()
 		hint.hide()
@@ -32,10 +33,13 @@ func _ready():
 		proximity.body_exited.connect(_on_body_exited)
 
 func _process(_delta : float) -> void:
-	if hint and hint.visible:
+	if hint:
 		_update_hint_position()
 
 func _update_hint_position() -> void:
+	# Label is top-level, so its transform is independent of the mirror's
+	# rotation. Control has no `global_rotation`; `rotation` alone keeps the
+	# hint axis-aligned.
 	hint.global_position = global_position + _hint_offset
 	hint.rotation = 0.0
 
@@ -59,6 +63,7 @@ func interact():
 	if locked:
 		return
 	rotation_degrees = fposmod(rotation_degrees + ROTATION_STEP_DEG, 360.0)
+	AudioManager.play_sfx("mirror_rotate")
 	rotated.emit(rotation_degrees)
 
 func continuous_rotate(delta : float) -> void:

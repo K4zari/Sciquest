@@ -36,6 +36,9 @@ func _accepted_label() -> String:
 		FuelOrb.Source.BIOMASS: return "Biomass Burner"
 	return ""
 
+func display_name() -> String:
+	return label_text if label_text != "" else _accepted_label()
+
 func _on_body_entered(body : Node2D) -> void:
 	if body != Globals.player:
 		return
@@ -50,26 +53,28 @@ func _on_body_exited(body : Node2D) -> void:
 	if prompt:
 		prompt.hide()
 
+## Pressing E opens the energy inventory popup, which calls try_energy() back.
 func interact() -> void:
 	if powered:
 		return
-	var orb : FuelOrb = _find_carried_orb()
-	if orb == null:
-		return
-	if orb.source == accepted_source:
-		_accept(orb)
-	else:
-		_reject(orb)
+	EventBus.energy_select_requested.emit(self)
 
-func _find_carried_orb() -> FuelOrb:
-	for orb in get_tree().get_nodes_in_group("FuelOrbs"):
-		if orb is FuelOrb and orb.carried:
-			return orb
-	return null
+## Called by the inventory UI when the player picks an orb to insert.
+## Returns true if accepted (UI should close), false if rejected (UI stays open).
+func try_energy(source : int) -> bool:
+	if powered:
+		return true
+	if source == int(accepted_source):
+		_accept(source)
+		return true
+	_reject()
+	return false
 
-func _accept(orb : FuelOrb) -> void:
+func _accept(source : int) -> void:
 	powered = true
-	orb.consume()
+	AudioManager.play_sfx("generator_power")
+	Globals.remove_energy(source)
+	EventBus.energy_consumed.emit(source)
 	if sprite:
 		var t := create_tween()
 		t.tween_property(sprite, "modulate", Color(1.6, 1.6, 0.6), 0.15)
@@ -79,9 +84,7 @@ func _accept(orb : FuelOrb) -> void:
 	generator_powered.emit()
 	EventBus.crystal_lit.emit(self)
 
-func _reject(orb : FuelOrb) -> void:
-	var drop_pos : Vector2 = global_position + Vector2(0, 16)
-	orb.pop_back(drop_pos)
+func _reject() -> void:
 	if sprite:
 		var t := create_tween()
 		t.tween_property(sprite, "modulate", Color(1.8, 0.3, 0.3), 0.08)

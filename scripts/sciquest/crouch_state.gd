@@ -23,10 +23,10 @@ func physics_update(delta):
 func animation_finished():
 	transition.emit("SitState")
 
-func execute_command(command : Forresta.Commands):
-	if not accepted_commands.has(command) and command != Forresta.Commands.RELEASE:
+func execute_command(command : Sciquest.Commands):
+	if not accepted_commands.has(command) and command != Sciquest.Commands.RELEASE:
 		return false
-	if command == Forresta.Commands.RELEASE and not actor.ceiling_detector.is_colliding():
+	if command == Sciquest.Commands.RELEASE and not actor.ceiling_detector.is_colliding():
 		transition.emit("StandUpState")
 	
 	return true

@@ -8,6 +8,12 @@ class_name FiniteStateMachine
 
 var previous_state : State
 
+# Name of the state this FSM booted in (the scene's `current_state`). Used to
+# return an enemy to its normal hunting behaviour after a quiz battle — basic
+# enemies boot in "PatrolState", bosses in a re-evaluating idle state, so a
+# single hardcoded resume state can't fit both.
+var initial_state_name : String = ""
+
 var states = {}
 
 func _ready():
@@ -18,8 +24,9 @@ func _ready():
 			child.animator = animator
 			child.actor = actor
 			child.pivot = pivot
-			
+
 	if current_state:
+		initial_state_name = current_state.name
 		change_state(previous_state, current_state)
 
 func transition(new_state : String):
@@ -35,7 +42,7 @@ func change_state(_previous_state: State, new_state : State):
 		new_state.is_current = true
 		current_state = new_state
 
-func execute_command(command : Forresta.Commands):
+func execute_command(command : Sciquest.Commands):
 	return current_state.execute_command(command)
 
 func _process(delta):
