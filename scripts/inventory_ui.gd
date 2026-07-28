@@ -38,7 +38,7 @@ func _ready():
 	slots = $VBoxContainer/MarginContainer/Background/MarginContainer2/InventorySlots.get_children()
 	EventBus.player_ready.connect(connect_inventory)
 	
-func connect_inventory(player : Forresta):
+func connect_inventory(player : Sciquest):
 	if not inventory == player.inventory:
 		inventory = player.inventory	
 		inventory.inventory_changed.connect(update_inventory)

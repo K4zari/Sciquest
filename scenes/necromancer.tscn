@@ -1,12 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://c6xr8uy16bu2a"]
+[gd_scene load_steps=14 format=3 uid="uid://c6xr8uy16bu2a"]
 
 [ext_resource type="Script" path="res://scripts/enemies/necromancer.gd" id="1_fydtp"]
 [ext_resource type="Texture2D" uid="uid://bcernm7rkurjg" path="res://graphics/spritesheets/Necromancer_creativekind-Sheet.png" id="1_sb4rw"]
 [ext_resource type="Script" path="res://scripts/fsm.gd" id="2_yuot3"]
 [ext_resource type="Script" path="res://scripts/enemies/basic_idle_state.gd" id="4_x2rax"]
 [ext_resource type="Script" path="res://scripts/enemies/necromancer_cast_state.gd" id="5_o3tcv"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="6_hurtbox"]
+[ext_resource type="Script" path="res://scripts/enemies/basic_die_state.gd" id="7_die"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l44xa"]
+size = Vector2(20, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(28, 64)
 
 [sub_resource type="Animation" id="Animation_tykdh"]
 resource_name = "CastSpell"
@@ -55,6 +61,46 @@ tracks/0/keys = {
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 
+[sub_resource type="Animation" id="Animation_die"]
+resource_name = "Die"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Marker2D/Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.0),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_n5cdc"]
 length = 0.001
 tracks/0/type = "value"
@@ -69,10 +115,23 @@ tracks/0/keys = {
 "update": 1,
 "values": [0]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Marker2D/Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yk50h"]
 _data = {
 "CastSpell": SubResource("Animation_tykdh"),
+"Die": SubResource("Animation_die"),
 "Idle": SubResource("Animation_k2nso"),
 "RESET": SubResource("Animation_n5cdc")
 }
@@ -81,7 +140,7 @@ _data = {
 script = ExtResource("1_fydtp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -10)
+position = Vector2(0, -25)
 shape = SubResource("RectangleShape2D_l44xa")
 
 [node name="Marker2D" type="Marker2D" parent="."]
@@ -93,14 +152,28 @@ offset = Vector2(0, -51)
 hframes = 17
 vframes = 7
 
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("target")]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+script = ExtResource("6_hurtbox")
+target = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -30)
+shape = SubResource("RectangleShape2D_hurtbox")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_yk50h")
 }
 
-[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state", "animator", "actor", "pivot")]
 script = ExtResource("2_yuot3")
 current_state = NodePath("EnemyIdleState")
+animator = NodePath("../AnimationPlayer")
+actor = NodePath("..")
+pivot = NodePath("../Marker2D")
 
 [node name="EnemyIdleState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("4_x2rax")
@@ -108,9 +181,14 @@ script = ExtResource("4_x2rax")
 [node name="NecromancerCastState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("5_o3tcv")
 
+[node name="DieState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("7_die")
+
 [node name="ReviveTimer" type="Timer" parent="."]
 wait_time = 10.0
 autostart = true
 
+[connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="FiniteStateMachine/NecromancerCastState" method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="FiniteStateMachine/DieState" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="ReviveTimer" to="." method="_on_revive_timer_timeout"]

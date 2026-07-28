@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T09:57:12.372686+00:00",
+  "task_slug": "prop-axe",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "single axe with wooden handle and steel wedge blade, centered, museum display item, flat side view, transparent background, no characters",
+  "prompt_hash": "72a5f308dd70fb1e6836826eba6d059b771251cc8e6c8ea9e8aa0905527a1f5f",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "single axe with wooden handle and steel wedge blade, centered, museum display item, flat side view, transparent background, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 3.48,
+  "created_at_epoch": 1781258304,
+  "output_files": [
+    "artifacts/retro/topic10/prop_axe/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/prop_axe/retro-diffusion-response.json"
+}

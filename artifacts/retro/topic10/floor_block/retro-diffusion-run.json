@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-12T09:46:23.931810+00:00",
+  "task_slug": "floor-block",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "tileable 2d platformer terrain block of dark riveted steel plates, copper trim along the top surface edge, steampunk factory floor, 32 pixel tile grid, flat side view, no characters, no background",
+  "prompt_hash": "5ea0f1e9f0878e22516aad3dbe8f395e0322ed6c27c17f03717580572a38809e",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 96,
+    "height": 96,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "tileable 2d platformer terrain block of dark riveted steel plates, copper trim along the top surface edge, steampunk factory floor, 32 pixel tile grid, flat side view, no characters, no background"
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 4.92,
+  "created_at_epoch": 1781257712,
+  "output_files": [
+    "artifacts/retro/topic10/floor_block/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/floor_block/retro-diffusion-response.json"
+}

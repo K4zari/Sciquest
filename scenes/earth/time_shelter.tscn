@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/earth/time_shelter.gd" id="1_shelter"]
+[ext_resource type="Texture2D" path="res://graphics/topic_9_earth/time_shelter.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="rs_shelter"]
+size = Vector2(40, 60)
+
+[node name="TimeShelter" type="Area2D" node_paths=PackedStringArray("rest_label")]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+script = ExtResource("1_shelter")
+rest_label = NodePath("RestLabel")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_tex")
+offset = Vector2(0, -58)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -30)
+shape = SubResource("rs_shelter")
+
+[node name="RestLabel" type="Label" parent="."]
+offset_left = -48.0
+offset_top = -118.0
+offset_right = 48.0
+offset_bottom = -96.0
+text = "Resting…"
+horizontal_alignment = 1

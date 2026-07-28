@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=3 uid="uid://cqpjwcfyotg33"]
 
 [ext_resource type="Script" path="res://scripts/status_portrait.gd" id="2_4ig1h"]
-[ext_resource type="Texture2D" uid="uid://dspawu4h1mda5" path="res://graphics/spritesheets/forresta_faces_32x32.png" id="6_2vu7t"]
-[ext_resource type="Texture2D" uid="uid://bbw8vx2gvniym" path="res://graphics/spritesheets/forresta_frame_32x32.png" id="7_0hrj2"]
+[ext_resource type="Texture2D" uid="uid://dspawu4h1mda5" path="res://graphics/spritesheets/sciquest_faces_32x32.png" id="6_2vu7t"]
+[ext_resource type="Texture2D" uid="uid://bbw8vx2gvniym" path="res://graphics/spritesheets/sciquest_frame_32x32.png" id="7_0hrj2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_64x02"]
 atlas = ExtResource("6_2vu7t")

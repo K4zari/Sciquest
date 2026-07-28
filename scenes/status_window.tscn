@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://dkq1efvxpkd0g"]
 
 [ext_resource type="Script" path="res://scripts/status_window.gd" id="1_g1rlx"]
-[ext_resource type="Texture2D" uid="uid://bhn1pqq4v6et3" path="res://graphics/spritesheets/foresta_status_idle.png" id="2_l8ajl"]
+[ext_resource type="Texture2D" uid="uid://bhn1pqq4v6et3" path="res://graphics/spritesheets/sciquest_status_idle.png" id="2_l8ajl"]
 [ext_resource type="FontFile" uid="uid://ovhqspbit3ou" path="res://fonts/m6x11 Daniel LInssen.ttf" id="4_ycrm7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i27mx"]
@@ -157,7 +157,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="ForrestaPicture" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/TextureRect/MarginContainer"]
+[node name="SciquestPicture" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/TextureRect/MarginContainer"]
 layout_mode = 2
 texture = SubResource("AtlasTexture_e7psj")
 stretch_mode = 5

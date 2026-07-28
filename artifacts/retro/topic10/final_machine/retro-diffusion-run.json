@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T10:01:53.427552+00:00",
+  "task_slug": "final-machine",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "huge steampunk factory machine, brass boiler with piston housing, gear mounts, gauges and pipes, grand assembly engine, side view, centered, transparent background, no characters",
+  "prompt_hash": "37cf7f3d228b05203ed462d4784955f0226607d26dc371b9296a8b2ee974ddc2",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 192,
+    "height": 160,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "huge steampunk factory machine, brass boiler with piston housing, gear mounts, gauges and pipes, grand assembly engine, side view, centered, transparent background, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 2.76,
+  "created_at_epoch": 1781258566,
+  "output_files": [
+    "artifacts/retro/topic10/final_machine/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/final_machine/retro-diffusion-response.json"
+}

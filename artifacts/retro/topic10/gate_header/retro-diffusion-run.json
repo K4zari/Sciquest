@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T10:02:46.677411+00:00",
+  "task_slug": "gate-header",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "ornate factory gate header sign frame, riveted iron arch with copper trim and small gears, wide horizontal banner, flat front view, transparent background, no text, no characters",
+  "prompt_hash": "0b371ccfc0974bf1a690eafc93fe3de97f6a876dd4e40bec8e53f82296c6709e",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 96,
+    "height": 96,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "ornate factory gate header sign frame, riveted iron arch with copper trim and small gears, wide horizontal banner, flat front view, transparent background, no text, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 2.58,
+  "created_at_epoch": 1781258608,
+  "output_files": [
+    "artifacts/retro/topic10/gate_header/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/gate_header/retro-diffusion-response.json"
+}

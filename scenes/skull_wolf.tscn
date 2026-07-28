@@ -222,7 +222,6 @@ chase_speed = 160
 SPEED = 160
 hp = 7.0
 max_hp = 7
-damage = 2.0
 max_overrun_distance = 96.0
 sprite_height = 25
 

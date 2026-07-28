@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://8r1fglmhn3s5"]
 
 [ext_resource type="Texture2D" uid="uid://byr418e5goyt3" path="res://graphics/spritesheets/explosion_sprite_sheet.png" id="1_tgjxl"]
-[ext_resource type="Script" path="res://scripts/forresta/fireball_explosion.gd" id="2_1f4xi"]
+[ext_resource type="Script" path="res://scripts/sciquest/fireball_explosion.gd" id="2_1f4xi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qb01i"]
 atlas = ExtResource("1_tgjxl")

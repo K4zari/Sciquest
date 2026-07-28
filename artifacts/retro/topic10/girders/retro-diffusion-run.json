@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-12T09:51:05.040050+00:00",
+  "task_slug": "girders",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "three horizontal steel girder platform beams stacked with gaps, riveted iron beam strips with copper top edge, 2d platformer floating platforms, side view, dark background, no characters",
+  "prompt_hash": "d7137002124f7391d1511d162f1faf1d35e3d37ba5c65143314ecf277166c0d3",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 96,
+    "height": 96,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "three horizontal steel girder platform beams stacked with gaps, riveted iron beam strips with copper top edge, 2d platformer floating platforms, side view, dark background, no characters"
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 4.38,
+  "created_at_epoch": 1781257916,
+  "output_files": [
+    "artifacts/retro/topic10/girders/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/girders/retro-diffusion-response.json"
+}

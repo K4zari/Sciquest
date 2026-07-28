@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__godot__get_debug_output",
+      "mcp__godot__capture_screenshot",
+      "mcp__godot__get_remote_debug_output",
+      "mcp__plugin_claude-mem_mcp-search__list_corpora",
+      "mcp__godot__run_project",
+      "mcp__godot__stop_project"
+    ]
+  }
+}

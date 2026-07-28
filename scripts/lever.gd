@@ -33,21 +33,22 @@ func _ready():
 func interact():
 	if requires_key and not Globals.player.check_for_key(key_required):
 		return
-	if not is_activated:
-		is_activated = true
-		activated.emit()
+	if is_activated:
+		if two_way:
+			is_activated = false
+			deactivated.emit()
+		return
+	is_activated = true
+	AudioManager.play_sfx("lever")
+	activated.emit()
+	if requires_key:
+		Globals.player.inventory.use_item(key_required)
 		requires_key = false
-		if not two_way:
-			$CollisionShape2D.set_deferred("disabled", true)
-			player_left.emit()
-		if requires_key:
-			Globals.player.inventory.use_item(key_required)
-			return
-	if two_way and action_deactivate != null:
-		is_activated = false
-		deactivated.emit()
+	if not two_way:
+		$CollisionShape2D.set_deferred("disabled", true)
+		player_left.emit()
 	
-func _on_body_entered(body : Forresta):
+func _on_body_entered(body : Sciquest):
 	player_nearby.emit(self)
 	if requires_key and not body.check_for_key(key_required):
 		$Label.text = "%s required" % Globals.key_names[key_required]

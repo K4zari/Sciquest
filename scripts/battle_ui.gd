@@ -3,6 +3,7 @@ extends CanvasLayer
 signal answer_chosen(index: int)
 signal continue_pressed
 
+var _current_question : Dictionary = {}
 var _question_label: RichTextLabel
 var _option_buttons: Array[Button] = []
 var _answer_grid: GridContainer
@@ -14,6 +15,11 @@ var _enemy_hp_label: Label
 var _enemy_name_label: Label
 var _topic_label: Label
 var _question_num_label: Label
+
+# After a wrong answer, lock the Continue button briefly so players actually read
+# the correct answer + explanation instead of reflexively skipping past it.
+const WRONG_ANSWER_READ_LOCK := 2
+var _continue_locked := false
 
 func _ready():
 	layer = 10
@@ -150,7 +156,10 @@ func _build_ui():
 	_continue_button.text = "Continue ▶"
 	_continue_button.custom_minimum_size.y = 24
 	_continue_button.add_theme_font_size_override("font_size", 10)
-	_continue_button.pressed.connect(func(): continue_pressed.emit())
+	_continue_button.pressed.connect(func():
+		if _continue_locked:
+			return
+		continue_pressed.emit())
 	fb_vbox.add_child(_continue_button)
 
 func _make_button_style(color: Color, focus: bool = false) -> StyleBoxFlat:
@@ -177,29 +186,45 @@ func _make_button_style(color: Color, focus: bool = false) -> StyleBoxFlat:
 func setup_question(question: Dictionary, q_num: int,
 		player_hp: float, player_max_hp: float,
 		enemy_hearts: int, enemy_max_hearts: int,
-		enemy_name: String, topic_name: String):
+		enemy_name: String, topic_name: String, enemy_shielded: bool = false):
+	_current_question = question
 	_topic_label.text = topic_name
 	_question_num_label.text = "  Q%d" % q_num
-	_question_label.text = "[b]%s[/b]" % question.question
+	var ms := Globals.language == "ms"
+	var q_text : String = question.get("question_ms", question.question) if ms else question.question
+	_question_label.text = "[b]%s[/b]" % q_text
 
 	var labels := ["A", "B", "C", "D"]
+	var opts : Array = question.get("options_ms", question.options) if ms else question.options
 	for i in range(4):
-		_option_buttons[i].text = "%s. %s" % [labels[i], question.options[i]]
+		_option_buttons[i].text = "%s. %s" % [labels[i], opts[i]]
 		_option_buttons[i].disabled = false
 		_option_buttons[i].modulate = Color.WHITE
 
 	_feedback_panel.visible = false
-	_update_hp(player_hp, player_max_hp, enemy_hearts, enemy_max_hearts, enemy_name)
+	_update_hp(player_hp, player_max_hp, enemy_hearts, enemy_max_hearts, enemy_name, enemy_shielded)
+	_option_buttons[0].grab_focus()
 
 func update_hp_bars(player_hp: float, player_max_hp: float,
-		enemy_hearts: int, enemy_max_hearts: int):
-	_update_hp(player_hp, player_max_hp, enemy_hearts, enemy_max_hearts, _enemy_name_label.text)
+		enemy_hearts: int, enemy_max_hearts: int, enemy_shielded: bool = false):
+	_update_hp(player_hp, player_max_hp, enemy_hearts, enemy_max_hearts, _enemy_name_label.text, enemy_shielded)
 
 func _update_hp(player_hp: float, player_max_hp: float,
-		enemy_hearts: int, enemy_max_hearts: int, enemy_name: String):
-	_player_hp_label.text = "You: HP %d/%d" % [int(ceil(player_hp)), int(player_max_hp)]
+		enemy_hearts: int, enemy_max_hearts: int, enemy_name: String, enemy_shielded: bool = false):
+	_player_hp_label.text = "%s: HP %d/%d" % [tr("You"), int(ceil(player_hp)), int(player_max_hp)]
 	_enemy_name_label.text = enemy_name
 	_enemy_hp_label.text = "♥".repeat(enemy_hearts) + "♡".repeat(enemy_max_hearts - enemy_hearts)
+
+	if enemy_shielded:
+		# Tint the hearts cyan/blue to signal the boss's HP isn't vulnerable yet —
+		# its one-hit barrier is still up (or this question is the round that breaks it).
+		_enemy_hp_label.add_theme_color_override("font_color", Color(0.5, 0.85, 1.0))
+		_enemy_hp_label.add_theme_color_override("font_outline_color", Color(0.1, 0.35, 0.6))
+		_enemy_hp_label.add_theme_constant_override("outline_size", 4)
+	else:
+		_enemy_hp_label.remove_theme_color_override("font_color")
+		_enemy_hp_label.remove_theme_color_override("font_outline_color")
+		_enemy_hp_label.remove_theme_constant_override("outline_size")
 
 func show_feedback(correct: bool, correct_index: int, explanation: String):
 	for i in range(4):
@@ -207,28 +232,56 @@ func show_feedback(correct: bool, correct_index: int, explanation: String):
 		_option_buttons[i].modulate = Color(0.5, 0.5, 0.5)
 	_option_buttons[correct_index].modulate = Color(0.3, 1.0, 0.3)
 
+	var expl : String = _current_question.get("explanation_ms", explanation) if Globals.language == "ms" else explanation
 	if correct:
-		_feedback_label.text = "[color=lime][b]Correct![/b][/color]  " + explanation
+		_feedback_label.text = "[color=lime][b]%s[/b][/color]  %s" % [tr("Correct!"), expl]
 	else:
-		_feedback_label.text = "[color=red][b]Wrong.[/b][/color]  Correct answer: [b]%s[/b].  %s" % [
-			["A","B","C","D"][correct_index], explanation
+		_feedback_label.text = "[color=red][b]%s[/b][/color]  %s: [b]%s[/b].  %s" % [
+			tr("Wrong."), tr("Correct answer"), ["A","B","C","D"][correct_index], expl
 		]
-	_continue_button.text = "Continue ▶"
 	_answer_grid.visible = false
 	_feedback_panel.visible = true
+	if correct:
+		# Correct answers stay instant — no reason to make the player wait.
+		_continue_locked = false
+		_continue_button.disabled = false
+		_continue_button.text = tr("Continue ▶")
+		_continue_button.grab_focus()
+	else:
+		_run_continue_lockout()
+
+## Disables the Continue button for a short countdown after a wrong answer so the
+## correct-answer reveal stays on screen long enough to read. Non-blocking.
+func _run_continue_lockout() -> void:
+	_continue_locked = true
+	_continue_button.disabled = true
+	if _continue_button.has_focus():
+		_continue_button.release_focus()
+	for remaining in range(WRONG_ANSWER_READ_LOCK, 0, -1):
+		_continue_button.text = tr("Read… (%d)") % remaining
+		await get_tree().create_timer(1.0).timeout
+		# Battle may have been aborted / a new question shown mid-countdown.
+		if not is_instance_valid(_continue_button) or not _feedback_panel.visible:
+			return
+	_continue_locked = false
+	_continue_button.disabled = false
+	_continue_button.text = tr("Continue ▶")
+	_continue_button.grab_focus()
 
 func show_battle_result(won: bool, questions_answered: int):
 	_answer_grid.visible = false
 	if won:
-		_feedback_label.text = "[color=lime][b]Battle Won![/b][/color]\nGreat work — you defeated the enemy in %d questions." % questions_answered
-		_continue_button.text = "Continue ▶"
+		_feedback_label.text = "[color=lime][b]%s[/b][/color]\n%s" % [tr("Battle Won!"), tr("Great work — you defeated the enemy in {n} questions.").format({"n": questions_answered})]
+		_continue_button.text = tr("Continue ▶")
 	else:
-		_feedback_label.text = "[color=red][b]Battle Lost.[/b][/color]\nReview the explanations above, then try again. Respawning at last checkpoint..."
-		_continue_button.text = "Respawn ▶"
+		_feedback_label.text = "[color=red][b]%s[/b][/color]\n%s" % [tr("Battle Lost."), tr("Review the explanations above, then try again. Respawning at last checkpoint...")]
+		_continue_button.text = tr("Respawn ▶")
 	_feedback_panel.visible = true
+	_continue_button.grab_focus()
 
 func reset_for_next_question():
 	_answer_grid.visible = true
 	_feedback_panel.visible = false
 	for btn in _option_buttons:
 		btn.visible = true
+	_option_buttons[0].grab_focus()

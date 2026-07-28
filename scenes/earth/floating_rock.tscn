@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/earth/floating_rock.gd" id="1_rock"]
+[ext_resource type="Texture2D" path="res://graphics/topic_9_earth/asteroid.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="rs_rock"]
+size = Vector2(42, 40)
+
+[node name="FloatingRock" type="AnimatableBody2D"]
+collision_layer = 1
+collision_mask = 0
+sync_to_physics = true
+script = ExtResource("1_rock")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.573684, 0.577848)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("rs_rock")

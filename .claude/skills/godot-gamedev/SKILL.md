@@ -41,7 +41,7 @@ Never add behaviour logic directly into `_process()` or `_physics_process()` on 
 
 | Logic type | Where it goes |
 |------------|---------------|
-| Character behaviour | FSM state in `scripts/forresta/` or `scripts/enemies/` |
+| Character behaviour | FSM state in `scripts/sciquest/` or `scripts/enemies/` |
 | Persistent data (score, topic, character) | `scripts/globals.gd` autoload |
 | Cross-node events | `scripts/events.gd` EventBus — emit a signal, don't get_node |
 | Scene transitions | `scripts/scene_changer.gd` autoload |
@@ -119,9 +119,9 @@ position.x += speed * delta
 
 ## Adding a New Player State
 
-1. Create `scripts/forresta/my_state.gd` extending `State`
+1. Create `scripts/sciquest/my_state.gd` extending `State`
 2. Implement `enter()`, `exit()`, `update(delta)`, `physics_update(delta)`
-3. Add the state node to `scenes/forresta_2.tscn` under the FSM node
+3. Add the state node to `scenes/sciquest_2.tscn` under the FSM node
 4. Set the state's name to match the transition key used in sibling states
 
 ```gdscript

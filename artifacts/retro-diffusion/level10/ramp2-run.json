@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-06-13T13:29:49.559436+00:00",
+  "task_slug": "retro-diffusion-task",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "steampunk metal ramp wedge, solid right-triangle incline made of riveted gunmetal iron plates, a bright yellow and black hazard warning stripe running along the sloped top edge, round bolts and vertical support struts underneath, weathered industrial factory metal, clean side view, pixel art",
+  "prompt_hash": "b9e31d1548ad275d8879c64b23fbe33fa3f246a67ce352bd4632585de68bb3ed",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 256,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "steampunk metal ramp wedge, solid right-triangle incline made of riveted gunmetal iron plates, a bright yellow and black hazard warning stripe running along the sloped top edge, round bolts and vertical support struts underneath, weathered industrial factory metal, clean side view, pixel art",
+    "seed": 11,
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 1.86,
+  "created_at_epoch": 1781357425,
+  "output_files": [
+    "C:/Users/Afif/Documents/Game based learning/artifacts/retro-diffusion/level10/ramp2-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "C:/Users/Afif/Documents/Game based learning/artifacts/retro-diffusion/level10/ramp2-response.json"
+}

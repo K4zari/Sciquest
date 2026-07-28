@@ -8,7 +8,7 @@ extends BasicEnemy
 var target_lost : bool
 
 func can_see_player():
-	if vision.is_colliding() and vision.get_collider() is Forresta:
+	if vision.is_colliding() and vision.get_collider() is Sciquest:
 		target_lost = false
 		return true
 	target_lost = true

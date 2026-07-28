@@ -22,9 +22,9 @@ fight enemies through turn-based MCQ battles covering 5 science topics.
 ## Key Files & Architecture
 
 ### Player
-- Scene: `scenes/forresta_2.tscn`
-- Script: `scripts/forresta/forresta.gd`
-- States: `scripts/forresta/` — idle, run, jump, fall, dash, attack, block, cast, hurt, die, crouch, slide, wall_slide, edge_grab, ladder_climb, teleport, sit, drown
+- Scene: `scenes/sciquest_2.tscn`
+- Script: `scripts/sciquest/sciquest_2.gd`
+- States: `scripts/sciquest/` — idle, run, jump, fall, dash, attack, hurt, die, crouch, slide, wall_slide, edge_grab, ladder_climb, teleport, sit, drown
 
 ### Levels & World
 - Level base: `scripts/level.gd`

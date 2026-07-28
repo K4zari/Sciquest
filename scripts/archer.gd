@@ -18,6 +18,6 @@ func fire_arrow():
 
 func can_see_player():
 	for raycast in eyes.get_children():
-		if raycast.is_colliding() and raycast.get_collider() is Forresta:
+		if raycast.is_colliding() and raycast.get_collider() is Sciquest:
 			return true
 	return false

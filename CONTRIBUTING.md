@@ -81,7 +81,7 @@ git branch -d feature/slime-enemy
 Godot scene files (`.tscn`) and resource files (`.tres`) are tricky to merge. Follow these rules:
 
 - **Communicate before editing shared scenes** like `edu_world.tscn`, `level_template.tscn`, `hud.tscn`. Post in the team chat: "I'm editing edu_world.tscn now."
-- **Split work by file** — one person on `forresta.gd`, another on `battle_manager.gd`.
+- **Split work by file** — one person on `sciquest.gd`, another on `battle_manager.gd`.
 - **Don't both edit the same scene at the same time.**
 - **Pull frequently** — at least once a day, more if multiple people are active.
 - **Push when done** — don't sit on changes for days.
@@ -91,7 +91,7 @@ Godot scene files (`.tscn`) and resource files (`.tres`) are tricky to merge. Fo
 | What you're adding | Where it goes |
 |--------------------|---------------|
 | New enemy | `scenes/` + `scripts/enemies/` |
-| New player ability/state | `scripts/forresta/` |
+| New player ability/state | `scripts/sciquest/` |
 | New level | `scenes/` (extends `level_template.tscn`) |
 | New questions | `scripts/question_bank.gd` |
 | UI screen | `scenes/` + `scripts/` |
@@ -112,7 +112,7 @@ These are non-negotiable to keep the codebase clean:
 
 To minimize file collisions:
 
-- **Player & combat** — `scripts/forresta/`, attack systems
+- **Player & combat** — `scripts/sciquest/`, attack systems
 - **Enemies** — `scripts/enemies/`, enemy scenes
 - **Levels & world** — level scenes, `world.gd`, `edu_world.gd`
 - **UI & HUD** — `hud.gd`, `main_menu.gd`, `battle_ui.gd`

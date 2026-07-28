@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T09:59:32.059083+00:00",
+  "task_slug": "prop-ladder",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "wooden step ladder leaning, side view, centered, museum display item, transparent background, no characters",
+  "prompt_hash": "960605b6108d6f0858e0e63863c17c9cbc380da1f2ea435b4fac0dc49264d264",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "wooden step ladder leaning, side view, centered, museum display item, transparent background, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 3.12,
+  "created_at_epoch": 1781258451,
+  "output_files": [
+    "artifacts/retro/topic10/prop_ladder/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/prop_ladder/retro-diffusion-response.json"
+}

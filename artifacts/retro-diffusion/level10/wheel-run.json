@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-06-13T14:01:41.726017+00:00",
+  "task_slug": "retro-diffusion-task",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "flat front-facing circular pulley wheel viewed straight on, steampunk copper and brass, perfectly round outer rim with a rope groove, round central hub with bolts, several evenly spaced spokes, radially symmetric, centered, isolated object on plain background, pixel art",
+  "prompt_hash": "c987bf04cc5d5c1a1f4a8d3d14229e6845a6f0c3f583a5d4a96f5204595d20ba",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "flat front-facing circular pulley wheel viewed straight on, steampunk copper and brass, perfectly round outer rim with a rope groove, round central hub with bolts, several evenly spaced spokes, radially symmetric, centered, isolated object on plain background, pixel art",
+    "seed": 41,
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 1.68,
+  "created_at_epoch": 1781359338,
+  "output_files": [
+    "C:/Users/Afif/Documents/Game based learning/artifacts/retro-diffusion/level10/wheel-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "C:/Users/Afif/Documents/Game based learning/artifacts/retro-diffusion/level10/wheel-response.json"
+}

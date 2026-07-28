@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcrush7door0a"]
+
+[ext_resource type="Script" path="res://scripts/crusher_door.gd" id="1_cdoor"]
+[ext_resource type="Texture2D" uid="uid://bdpo4fwlqjd3i" path="res://graphics/spritesheets/crusher.png" id="2_ctex"]
+
+[sub_resource type="RectangleShape2D" id="cd_shape"]
+resource_local_to_scene = true
+size = Vector2(46, 16)
+
+[node name="CrusherDoor" type="AnimatableBody2D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("1_cdoor")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("cd_shape")
+
+[node name="Body" type="Node2D" parent="."]
+
+[node name="Head" type="Sprite2D" parent="Body"]
+z_index = -1
+texture_filter = 1
+texture = ExtResource("2_ctex")
+centered = false
+offset = Vector2(-24, -16)
+region_enabled = true
+region_rect = Rect2(192, 16, 48, 32)
+
+[node name="BodySegment" type="Sprite2D" parent="Body"]
+z_index = -2
+texture_filter = 1
+position = Vector2(0, -16)
+texture = ExtResource("2_ctex")
+centered = false
+offset = Vector2(-24, -16)
+region_enabled = true
+region_rect = Rect2(192, 0, 48, 16)

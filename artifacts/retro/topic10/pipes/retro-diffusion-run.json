@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-12T09:49:35.976361+00:00",
+  "task_slug": "pipes",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "steampunk copper and brass pipes tileset, vertical pipe, horizontal pipe, elbow joint, valve wheel, on dark factory wall tiles, 32 pixel grid, flat side view, no characters",
+  "prompt_hash": "f09dec9a2bdc118e63248d76f74372f506ba5f64993bc2dad12c1bbfc08546ce",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 96,
+    "height": 96,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "steampunk copper and brass pipes tileset, vertical pipe, horizontal pipe, elbow joint, valve wheel, on dark factory wall tiles, 32 pixel grid, flat side view, no characters"
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 4.56,
+  "created_at_epoch": 1781257864,
+  "output_files": [
+    "artifacts/retro/topic10/pipes/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/pipes/retro-diffusion-response.json"
+}

@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-06-06T19:08:46.975602+00:00",
+  "task_slug": "retro-diffusion-task",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "check_cost",
+  "prompt_text": "seamless steampunk factory floor tileset, riveted dark iron metal plates, brass pipes, grating, top-down game tiles",
+  "prompt_hash": "816094d41deefa85868093382bc631a34b384a94a68c6e09516dff5ecb013309",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 256,
+    "height": 256,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "seamless steampunk factory floor tileset, riveted dark iron metal plates, brass pipes, grating, top-down game tiles",
+    "check_cost": true
+  },
+  "status": "cost_only",
+  "balance_cost": 0.18,
+  "remaining_balance": 0.10000000000000014,
+  "created_at_epoch": 1780772928,
+  "output_files": [],
+  "output_urls": [],
+  "response_json": "artifacts/retro_machines/retro-diffusion-response.json"
+}

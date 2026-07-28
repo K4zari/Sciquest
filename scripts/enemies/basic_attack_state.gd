@@ -11,6 +11,8 @@ func enter_state(_prev_state : State):
 	attack_started = false
 	
 func frame_update(delta):
+	if "is_boss_summon" in actor and actor.is_boss_summon and BattleManager.is_active():
+		return
 	if attack_started:
 		return
 	attack_delay -= delta
@@ -23,3 +25,8 @@ func animation_finished():
 		transition.emit("AttackState")
 	else:
 		transition.emit("PatrolState")
+
+func _on_animation_player_animation_finished(_anim_name):
+	if not is_current:
+		return
+	animation_finished()

@@ -1,6 +1,9 @@
 extends Node2D
 
-var damage : int = 3
+# The damage system reads `current_damage` and `affinity` off whatever is set as
+# an AttackBox's `attacker` (see stats.gd / basic_enemy_template.gd), so the spell
+# must expose those names — the spell node is its own attacker.
+var current_damage : float = 3.0
 var affinity : int = Globals.Affinities.NONE
 
 func _ready():

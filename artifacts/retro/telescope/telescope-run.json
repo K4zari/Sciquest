@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-06-03T20:20:35.583934+00:00",
+  "task_slug": "telescope",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-spritesheet",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__spritesheet",
+  "model": "rd_pro",
+  "prompt_text": "a small brass and wood telescope on a wooden tripod, side view, astronomy observatory instrument, plain flat background, pixel art",
+  "prompt_hash": "568fd3df205a355a9553cc9caf7bae501773d4588cf6ddd55dadfab033aad87d",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__spritesheet",
+    "prompt": "a small brass and wood telescope on a wooden tripod, side view, astronomy observatory instrument, plain flat background, pixel art",
+    "seed": 7002,
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 0.64,
+  "created_at_epoch": 1780518113,
+  "output_files": [
+    "artifacts/retro/telescope/telescope-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/telescope/telescope-response.json"
+}

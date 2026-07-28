@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-12T09:51:56.942396+00:00",
+  "task_slug": "decor",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "steampunk factory wall decoration tiles: air vent grille, round pressure gauge, hazard warning stripes, small window, hanging cables, wall-mounted gear, 32 pixel grid arrangement, flat view, no characters",
+  "prompt_hash": "9a26332681a57c7e6b9ec194130466a58cc783bdbbf892fe2b43edbd042abd6b",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 96,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "steampunk factory wall decoration tiles: air vent grille, round pressure gauge, hazard warning stripes, small window, hanging cables, wall-mounted gear, 32 pixel grid arrangement, flat view, no characters"
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 4.2,
+  "created_at_epoch": 1781257955,
+  "output_files": [
+    "artifacts/retro/topic10/decor/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/decor/retro-diffusion-response.json"
+}

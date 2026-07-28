@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://dic6pim5ua5l2"]
+
+[ext_resource type="Script" path="res://scripts/machines/see_saw.gd" id="1_seesaw"]
+[ext_resource type="Texture2D" uid="uid://dkbtcq221q38f" path="res://graphics/topic_10_machines/props/seesaw_beam.png" id="2_beamtex"]
+[ext_resource type="Texture2D" uid="uid://kujhew6sf3ta" path="res://graphics/topic_10_machines/props/gear_small.png" id="3_geartex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_beam"]
+size = Vector2(240, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_leftpad"]
+size = Vector2(135, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rightpad"]
+size = Vector2(135, 30)
+
+[node name="SeeSaw" type="Node2D"]
+script = ExtResource("1_seesaw")
+
+[node name="Fulcrum" type="Polygon2D" parent="."]
+color = Color(0.3, 0.28, 0.26, 1)
+polygon = PackedVector2Array(-20, 30, 20, 30, 0, -4)
+
+[node name="FulcrumCap" type="Polygon2D" parent="."]
+color = Color(0.72, 0.5, 0.28, 1)
+polygon = PackedVector2Array(-6, 2, 6, 2, 0, -7)
+
+[node name="PivotGear" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 2)
+scale = Vector2(1.3, 1.3)
+texture = ExtResource("3_geartex")
+
+[node name="Beam" type="AnimatableBody2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Beam"]
+shape = SubResource("RectangleShape2D_beam")
+
+[node name="BeamSprite" type="Sprite2D" parent="Beam"]
+texture_filter = 1
+scale = Vector2(1.043478, 1.043478)
+texture = ExtResource("2_beamtex")
+
+[node name="LeftPad" type="Area2D" parent="Beam"]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Beam/LeftPad"]
+position = Vector2(-57, -23)
+shape = SubResource("RectangleShape2D_leftpad")
+
+[node name="RightPad" type="Area2D" parent="Beam"]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Beam/RightPad"]
+position = Vector2(57, -23)
+shape = SubResource("RectangleShape2D_rightpad")
+
+[connection signal="body_entered" from="Beam/LeftPad" to="." method="_on_left_pad_body_entered"]
+[connection signal="body_exited" from="Beam/LeftPad" to="." method="_on_left_pad_body_exited"]
+[connection signal="body_entered" from="Beam/RightPad" to="." method="_on_right_pad_body_entered"]
+[connection signal="body_exited" from="Beam/RightPad" to="." method="_on_right_pad_body_exited"]

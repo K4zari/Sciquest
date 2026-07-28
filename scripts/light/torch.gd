@@ -10,6 +10,7 @@ class_name Torch
 @onready var beam : Node = $LightBeam if has_node("LightBeam") else null
 @onready var sprite : Node = $Sprite if has_node("Sprite") else null
 @onready var proximity : Area2D = $Proximity if has_node("Proximity") else null
+@onready var hint : Label = _find_hint_label()
 
 signal player_nearby(source : Node)
 signal player_left
@@ -22,9 +23,17 @@ func _ready():
 	if beam:
 		beam.enabled = emit_on_start
 	_apply_lit_visual(emit_on_start)
+	if hint:
+		hint.hide()
 	if proximity:
 		proximity.body_entered.connect(_on_body_entered)
 		proximity.body_exited.connect(_on_body_exited)
+
+func _find_hint_label() -> Label:
+	for child in get_children():
+		if child is Label:
+			return child
+	return null
 
 func interact():
 	if rotatable:
@@ -38,12 +47,23 @@ func set_emitting(on : bool) -> void:
 		beam.enabled = on
 	_apply_lit_visual(on)
 
+## Lever hooks so a torch (e.g. a "Sun") can be switched on by pulling a lever.
+func _on_lever_activated() -> void:
+	set_emitting(true)
+
+func _on_lever_deactivated() -> void:
+	set_emitting(false)
+
 func _apply_lit_visual(lit : bool) -> void:
 	if sprite is CanvasItem:
 		(sprite as CanvasItem).modulate = Color(1.0, 1.0, 1.0, 1.0) if lit else Color(0.75, 0.75, 0.85, 1.0)
 
 func _on_body_entered(_body : Node) -> void:
+	if hint and (rotatable or togglable):
+		hint.show()
 	player_nearby.emit(self)
 
 func _on_body_exited(_body : Node) -> void:
+	if hint:
+		hint.hide()
 	player_left.emit()

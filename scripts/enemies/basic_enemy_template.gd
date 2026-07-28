@@ -45,7 +45,19 @@ var is_on_screen : bool = false
 var can_attack : bool = true
 var in_battle : bool = false
 
+# ── Boss shield (one-hit barrier) ────────────────────────────────────────────
+# Bosses spawn behind a protective barrier that absorbs exactly one player hit;
+# that hit shatters the shield (via the quiz, see BattleManager._shield_round)
+# and only afterwards is the boss's HP actually vulnerable to damage.
+const BarrierScript = preload("res://scripts/boss_barrier.gd")
+const SHIELD_OFFSET : Vector2 = Vector2(0, -30)
+var shield_active : bool = false
+var _shield_barrier : Node2D = null
 
+# ── Wind push (Topic 7 wind turbine) ─────────────────────────────────────────
+var in_wind : bool = false
+var wind_force : Vector2 = Vector2.ZERO
+@export var wind_kill_y : float = 600.0  # fall past this Y → despawn
 
 var gravity = Globals.gravity
 
@@ -63,13 +75,46 @@ func _ready():
 	else:
 		pivot.scale.x = facing_direction
 	EventBus.enemy_spawned.emit(self)
+	if is_boss:
+		_acquire_shield()
+
+## Bosses act as if shielded by a one-hit barrier/aura. Some level scenes already
+## place a themed BossBarrier under the boss (e.g. level 7's fire-orange aura,
+## level 9's cosmic-purple aura) — reuse that existing node so we don't layer a
+## second shield on top of it. Only spawn a default one if the boss has none.
+func _acquire_shield():
+	for child in get_children():
+		if child is Node2D and child.get_script() == BarrierScript:
+			_shield_barrier = child
+			shield_active = true
+			return
+	shield_active = true
+	_shield_barrier = Node2D.new()
+	_shield_barrier.set_script(BarrierScript)
+	_shield_barrier.position = SHIELD_OFFSET
+	_shield_barrier.fill_color = Color(0.25, 0.6, 1.0, 0.2)
+	_shield_barrier.stroke_color = Color(0.4, 0.85, 1.0, 0.85)
+	_shield_barrier.glow_color = Color(0.6, 0.9, 1.0, 0.55)
+	add_child(_shield_barrier)
+
+## Shatters the one-hit barrier/aura; the boss's HP becomes vulnerable from here on.
+func break_shield():
+	if not shield_active:
+		return
+	shield_active = false
+	if is_instance_valid(_shield_barrier):
+		var barrier := _shield_barrier
+		_shield_barrier = null
+		var tw := create_tween()
+		tw.tween_property(barrier, "modulate:a", 0.0, 0.3)
+		tw.tween_callback(barrier.queue_free)
 
 func take_damage(enemy : Node2D):
 	if  randf() < evasion_rate:
 		launch_label("%s" % "Miss!")
 		return
 	var damage_taken : float
-	if enemy is Forresta:
+	if enemy is Sciquest:
 		damage_taken = enemy.Stats.current_damage
 	else:
 		damage_taken = enemy.current_damage
@@ -79,12 +124,35 @@ func take_damage(enemy : Node2D):
 	launch_label("%d" % ceil(damage_taken))
 	health_bar.update_bar(float(hp)/ max_hp)
 	if hp > 0:
+		AudioManager.play_sfx("enemy_hurt")
 		state_machine.transition("HurtState")
 	else:
+		AudioManager.play_sfx("enemy_dies")
 		state_machine.transition("DieState")
 
 func drown():
 	gravity = Globals.gravity * 0.1
+
+## Called by a WindZone each physics frame while the gust overlaps this enemy.
+## Hands control to WindBlownState (only enemies that have that state react).
+func start_wind(force : Vector2) -> void:
+	if is_dead:
+		return
+	wind_force = force
+	if not in_wind:
+		in_wind = true
+		if state_machine and state_machine.states.has("WindBlownState"):
+			state_machine.transition("WindBlownState")
+
+func stop_wind() -> void:
+	in_wind = false
+
+## Blown clean off the platform into the pit below — remove from the level.
+func blow_away_despawn() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	queue_free()
 
 func launch_label(text : String):
 	var label = label_scene.instantiate()

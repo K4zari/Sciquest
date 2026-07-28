@@ -20,11 +20,14 @@ func _ready():
 func can_see_player():
 	for vision_ray in eyes.get_children():
 		if vision_ray.is_colliding():
-			if vision_ray.get_collider().name == "Forresta":
+			if vision_ray.get_collider().name == "Sciquest":
 				target_lost = false
 				return true
 	target_lost = true
 	return false
 
 func _on_basic_die_state_died():
+	# Reveal the level-exit portal this boss was guarding before despawning.
+	if teleport_guarded and teleport_guarded.has_method("activate"):
+		teleport_guarded.activate()
 	queue_free()

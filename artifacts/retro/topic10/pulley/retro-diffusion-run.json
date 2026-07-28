@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T09:53:49.799197+00:00",
+  "task_slug": "pulley",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "single pulley wheel with rope groove and hanging rope, iron and copper, centered, steampunk, flat side view, transparent background, no characters",
+  "prompt_hash": "21e1c80729e8f42023706d2fdbf3b5d33ffbd286bdcfb242cef1832cce74e0d1",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 96,
+    "height": 96,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "single pulley wheel with rope groove and hanging rope, iron and copper, centered, steampunk, flat side view, transparent background, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 3.84,
+  "created_at_epoch": 1781258122,
+  "output_files": [
+    "artifacts/retro/topic10/pulley/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/pulley/retro-diffusion-response.json"
+}

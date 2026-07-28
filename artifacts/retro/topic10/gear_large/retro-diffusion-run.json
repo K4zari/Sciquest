@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T09:52:51.366752+00:00",
+  "task_slug": "gear-large",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "single large bronze gear cogwheel, centered, steampunk machine part, crisp pixel art, flat side view, transparent background, no characters",
+  "prompt_hash": "cee9b68ff62550af267351ec0bc1cd612dffa47224a398327c80fd5a5cfeb231",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "single large bronze gear cogwheel, centered, steampunk machine part, crisp pixel art, flat side view, transparent background, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 4.02,
+  "created_at_epoch": 1781258029,
+  "output_files": [
+    "artifacts/retro/topic10/gear_large/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/gear_large/retro-diffusion-response.json"
+}

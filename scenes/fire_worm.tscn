@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dm8gngpvdasyo"]
+[gd_scene load_steps=20 format=3 uid="uid://dm8gngpvdasyo"]
 
 [ext_resource type="PackedScene" uid="uid://uq4e4sun6kp1" path="res://scenes/basic_enemy_template.tscn" id="1_ht6kk"]
 [ext_resource type="Script" path="res://scripts/enemies/fire_worm.gd" id="2_wmqgt"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/enemies/basic_attack_state.gd" id="6_u5cxd"]
 [ext_resource type="Script" path="res://scripts/enemies/basic_hurt_state.gd" id="7_qcno8"]
 [ext_resource type="Script" path="res://scripts/enemies/basic_die_state.gd" id="8_fufmh"]
+[ext_resource type="Script" path="res://scripts/enemies/wind_blown_state.gd" id="9_wblow"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q8o8l"]
 resource_local_to_scene = true
@@ -347,8 +348,11 @@ disabled = false
 position = Vector2(-2, -14)
 shape = SubResource("RectangleShape2D_73lb7")
 
-[node name="FiniteStateMachine" parent="." index="2" node_paths=PackedStringArray("current_state")]
+[node name="FiniteStateMachine" parent="." index="2" node_paths=PackedStringArray("current_state", "animator", "actor", "pivot")]
 current_state = NodePath("IdleState")
+animator = NodePath("../AnimationPlayer")
+actor = NodePath("..")
+pivot = NodePath("../Pivot")
 
 [node name="IdleState" type="Node" parent="FiniteStateMachine" index="0"]
 script = ExtResource("4_5n380")
@@ -364,6 +368,9 @@ script = ExtResource("7_qcno8")
 
 [node name="DieState" type="Node" parent="FiniteStateMachine" index="4"]
 script = ExtResource("8_fufmh")
+
+[node name="WindBlownState" type="Node" parent="FiniteStateMachine" index="5"]
+script = ExtResource("9_wblow")
 
 [node name="RestTimer" parent="." index="3"]
 wait_time = 0.75
@@ -381,7 +388,6 @@ libraries = {
 "": SubResource("AnimationLibrary_vtg60")
 }
 
-[connection signal="died" from="FiniteStateMachine/DieState" to="." method="_on_die_state_died"]
 [connection signal="timeout" from="ForgetTimer" to="." method="_on_forget_timer_timeout"]
 
 [editable path="Pivot/AttackBox"]
