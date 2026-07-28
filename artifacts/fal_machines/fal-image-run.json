@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-06-06T19:10:11Z",
+  "task_slug": "fal-image-task",
+  "provider": "fal",
+  "model_alias": "nano-banana-2-t2i",
+  "family": "nano-banana-2",
+  "endpoint_id": "fal-ai/nano-banana-2",
+  "task_type": "text-to-image",
+  "status": "dry_run",
+  "prompt_text": "test",
+  "prompt_hash": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+  "input_source": {
+    "image_files": [],
+    "image_urls": [],
+    "input_image_field": null
+  },
+  "resolved_arguments": {
+    "num_images": 1,
+    "aspect_ratio": "1:1",
+    "output_format": "png",
+    "resolution": "1K",
+    "safety_tolerance": "4",
+    "prompt": "test"
+  },
+  "preset_defaults": {
+    "num_images": 1,
+    "aspect_ratio": "1:1",
+    "output_format": "png",
+    "resolution": "1K",
+    "safety_tolerance": "4"
+  },
+  "explicit_overrides": {},
+  "headers": {
+    "X-Fal-Store-IO": "1",
+    "x-app-fal-disable-fallback": "true"
+  },
+  "request_id": null,
+  "output_files": [],
+  "output_urls": [],
+  "estimated_cost": null,
+  "estimated_cost_method": null,
+  "reconciled_cost": null,
+  "cost_currency": null,
+  "raw_files": {},
+  "notes": []
+}

@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T09:58:24.361312+00:00",
+  "task_slug": "prop-wheelbarrow",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "garden wheelbarrow with one wheel and two handles, side view, centered, museum display item, transparent background, no characters",
+  "prompt_hash": "0fbabd849bbe1ed1bdee154f24a0acefb27737b439ed04c174f8b01282ea454b",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "garden wheelbarrow with one wheel and two handles, side view, centered, museum display item, transparent background, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 3.3,
+  "created_at_epoch": 1781258372,
+  "output_files": [
+    "artifacts/retro/topic10/prop_wheelbarrow/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/prop_wheelbarrow/retro-diffusion-response.json"
+}

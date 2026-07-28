@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://n82senopx8m"
+path="res://.godot/imported/lever sfx.mp3-d68c18f3ad07e20e9037526d414357f2.mp3str"
+
+[deps]
+
+source_file="res://sound/lever sfx.mp3"
+dest_files=["res://.godot/imported/lever sfx.mp3-d68c18f3ad07e20e9037526d414357f2.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

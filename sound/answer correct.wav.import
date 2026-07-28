@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cr3ubg4plevdj"
+path="res://.godot/imported/answer correct.wav-c456d5aaecc821a4c0b3f9bd3c3e42f9.sample"
+
+[deps]
+
+source_file="res://sound/answer correct.wav"
+dest_files=["res://.godot/imported/answer correct.wav-c456d5aaecc821a4c0b3f9bd3c3e42f9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

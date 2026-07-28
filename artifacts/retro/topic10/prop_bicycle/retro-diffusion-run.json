@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T10:00:51.176061+00:00",
+  "task_slug": "prop-bicycle",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "classic bicycle with two wheels, chain gears and frame, side view, centered, museum display item, transparent background, no characters",
+  "prompt_hash": "79bd8054b7bc2b5ede174143d83fd5e66b2bc54313935329f9f9a34436c10b6c",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "classic bicycle with two wheels, chain gears and frame, side view, centered, museum display item, transparent background, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 2.94,
+  "created_at_epoch": 1781258497,
+  "output_files": [
+    "artifacts/retro/topic10/prop_bicycle/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/prop_bicycle/retro-diffusion-response.json"
+}

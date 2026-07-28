@@ -1,0 +1,33 @@
+{
+  "timestamp": "2026-06-12T09:55:22.476968+00:00",
+  "task_slug": "prop-scissors",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "pair of open scissors, museum display item, metal blades and screw pivot visible, centered, flat side view, transparent background, no characters",
+  "prompt_hash": "e42941a004be2c57ace0855a50e9095a873a717047af4692f2be29effb86b488",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "pair of open scissors, museum display item, metal blades and screw pivot visible, centered, flat side view, transparent background, no characters",
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 3.66,
+  "created_at_epoch": 1781258217,
+  "output_files": [
+    "artifacts/retro/topic10/prop_scissors/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/prop_scissors/retro-diffusion-response.json"
+}

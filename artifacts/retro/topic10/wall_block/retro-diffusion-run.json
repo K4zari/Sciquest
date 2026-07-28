@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-12T09:48:32.875175+00:00",
+  "task_slug": "wall-block",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-platformer",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__platformer",
+  "model": "rd_pro",
+  "prompt_text": "tileable steampunk factory interior wall, dark iron panels with rivets and bolted seams, flat front view 2d platformer wall tiles, 32 pixel grid, muted brown and grey, no characters",
+  "prompt_hash": "230777741431ebf1afb74775aade5a50cb2eca3d448a3a6f31098cd8c36a64a8",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 96,
+    "height": 96,
+    "num_images": 1,
+    "prompt_style": "rd_pro__platformer",
+    "prompt": "tileable steampunk factory interior wall, dark iron panels with rivets and bolted seams, flat front view 2d platformer wall tiles, 32 pixel grid, muted brown and grey, no characters"
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 4.74,
+  "created_at_epoch": 1781257760,
+  "output_files": [
+    "artifacts/retro/topic10/wall_block/retro-diffusion-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/topic10/wall_block/retro-diffusion-response.json"
+}

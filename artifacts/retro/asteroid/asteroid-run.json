@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-06-03T20:24:10.210214+00:00",
+  "task_slug": "asteroid",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-spritesheet",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__spritesheet",
+  "model": "rd_pro",
+  "prompt_text": "a single grey rocky asteroid floating in space, cratered, plain flat background, pixel art",
+  "prompt_hash": "f3a5a2fb1f51fcd07ea4cbe94fc5caad40c9672fd3263ce6c72e06b614cc1790",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 96,
+    "height": 96,
+    "num_images": 1,
+    "prompt_style": "rd_pro__spritesheet",
+    "prompt": "a single grey rocky asteroid floating in space, cratered, plain flat background, pixel art",
+    "seed": 7004,
+    "remove_bg": true
+  },
+  "status": "completed",
+  "balance_cost": 0.18,
+  "remaining_balance": 0.28,
+  "created_at_epoch": 1780518344,
+  "output_files": [
+    "artifacts/retro/asteroid/asteroid-output-01.png"
+  ],
+  "output_urls": [],
+  "response_json": "artifacts/retro/asteroid/asteroid-response.json"
+}

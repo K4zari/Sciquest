@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dhwxh0dpyqqju"
+path="res://.godot/imported/player attack.mp3-8e344a708bfcb356d725fd020a33d425.mp3str"
+
+[deps]
+
+source_file="res://sound/player attack.mp3"
+dest_files=["res://.godot/imported/player attack.mp3-8e344a708bfcb356d725fd020a33d425.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

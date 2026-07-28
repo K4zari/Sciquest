@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-06-03T20:19:00.232691+00:00",
+  "task_slug": "moon-cost",
+  "provider": "retro-diffusion",
+  "preset": "rd-pro-spritesheet",
+  "family": "RD_PRO",
+  "prompt_style": "rd_pro__spritesheet",
+  "model": "check_cost",
+  "prompt_text": "a single full moon, pale grey and white, round sphere, soft cratered surface, centered, plain flat background, pixel art",
+  "prompt_hash": "1ab25e383ca91858d683cbf267504517b0e42ce4eb059be4963cb191d473bc0b",
+  "input_source": {
+    "input_image": null,
+    "reference_images": [],
+    "input_palette": null
+  },
+  "resolved_arguments": {
+    "width": 128,
+    "height": 128,
+    "num_images": 1,
+    "prompt_style": "rd_pro__spritesheet",
+    "prompt": "a single full moon, pale grey and white, round sphere, soft cratered surface, centered, plain flat background, pixel art",
+    "remove_bg": true,
+    "check_cost": true
+  },
+  "status": "cost_only",
+  "balance_cost": 0.18,
+  "remaining_balance": 1.0,
+  "created_at_epoch": 1780517941,
+  "output_files": [],
+  "output_urls": [],
+  "response_json": "artifacts/retro/moon/moon-cost-response.json"
+}
