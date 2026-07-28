@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk4dwin0lgk3y"]
+
+[ext_resource type="Script" path="res://scripts/machines/ramp.gd" id="1_ramp"]
+[ext_resource type="Texture2D" uid="uid://bgbne5rnt1lb4" path="res://graphics/topic_10_machines/props/ramp_metal.png" id="2_ramptex"]
+
+[node name="Ramp" type="AnimatableBody2D"]
+collision_mask = 0
+script = ExtResource("1_ramp")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(14, -1, 256, 0, 256, -128)
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -128)
+scale = Vector2(1.14286, 1.19626)
+texture = ExtResource("2_ramptex")
+centered = false

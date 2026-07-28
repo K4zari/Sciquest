@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/earth/gravity_plate.gd" id="1_plate"]
+[ext_resource type="Texture2D" path="res://graphics/topic_9_earth/gravity_plate.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="rs_plate"]
+size = Vector2(56, 18)
+
+[node name="GravityPlate" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+script = ExtResource("1_plate")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("rs_plate")
